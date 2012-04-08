@@ -42,7 +42,7 @@
         if ([operationArray containsObject:operand]) {
             [self.programStack addObject:[NSString stringWithString:[operand stringValue]]];
         } else if ([operand isEqual:@"π"]) {
-            [self.programStack addObject:[NSNumber numberWithDouble:M_PI]];
+            [self.programStack addObject:@"π"];
         } else if ([self.variableValues.allKeys containsObject:operand]) {
             [self.programStack addObject:[self.variableValues valueForKey:operand]];
         } else {
@@ -155,6 +155,8 @@
             result = cos([self popOperandOffStack:stack]);
         } else if ([@"sqrt" isEqualToString:operation]) {
             result = sqrt([self popOperandOffStack:stack]);
+        } else if ([@"π" isEqualToString:operation]) {
+            result = M_PI;
         }
     }
     
