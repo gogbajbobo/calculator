@@ -39,8 +39,8 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "27"
          endingLineNumber = "27"
-         landmarkName = "+runProgram:"
-         landmarkType = "4">
+         landmarkName = "@interface CalculatorBrain"
+         landmarkType = "2">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "Yes"
