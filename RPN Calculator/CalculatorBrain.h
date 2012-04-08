@@ -17,12 +17,6 @@
 
 @property (readonly) id program;
 
-// comment to test git source control
-
-// comment to test git source control 3
-
-// comment to test git source control 4
-
 @property (nonatomic, strong) NSDictionary *variableValues;
 
 + (double) runProgram:(id)program;
