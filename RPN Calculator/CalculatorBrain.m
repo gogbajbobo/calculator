@@ -6,6 +6,9 @@
 //  Copyright (c) 2012 Maxim V. Grigoriev. All rights reserved.
 //
 
+// comment to test git source control 2
+
+
 #import "CalculatorBrain.h"
 
 @interface CalculatorBrain ()
