@@ -41,11 +41,6 @@
     NSLog(@"digit pressed = %@", digit);
 }
 
-+ (NSString *)logUpdate
-{
-    return nil;
-}
-
 - (IBAction)operationPressed:(UIButton *)sender 
 {
     if (self.userIsInTheMiddleOfTheEnteringANumber) [self enterPressed];

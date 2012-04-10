@@ -44,7 +44,8 @@
         } else if ([operand isEqual:@"π"]) {
             [self.programStack addObject:@"π"];
         } else if ([self.variableValues.allKeys containsObject:operand]) {
-            [self.programStack addObject:[self.variableValues valueForKey:operand]];
+//            [self.programStack addObject:[self.variableValues valueForKey:operand]];
+            [self.programStack addObject:operand];
         } else {
             [self.programStack addObject:[NSNumber numberWithInt:0]];
         }
@@ -54,9 +55,32 @@
 - (double)performOperation:(NSString *)operation
 {
     [self.programStack addObject:operation];
-    return [CalculatorBrain runProgram:self.program usingVariableValues:self.variableValues];
+    NSMutableArray *keysArray = [NSMutableArray arrayWithArray:self.variableValues.allKeys];
+    NSLog(@"%@",keysArray);
+    NSMutableArray *stackWithVariableValues = [self.program mutableCopy];
+    NSLog(@"%@",stackWithVariableValues);
+    stackWithVariableValues = [self replaceVariableWithValues:stackWithVariableValues usingKeysArray:keysArray];
+    NSLog(@"%@",stackWithVariableValues);
+    return [CalculatorBrain runProgram:stackWithVariableValues usingVariableValues:self.variableValues];
 }
 
+- (NSMutableArray *)replaceVariableWithValues:(NSMutableArray *)stack
+                               usingKeysArray:(NSMutableArray *)keysArray
+{
+    NSMutableArray *result = stack;
+    for (int i=0; i<=keysArray.count-1; i++) {
+        NSString *key = [keysArray objectAtIndex:i];
+        for (int j=0; j<=result.count-1; j++) {
+            NSString *values = [result objectAtIndex:j];
+            if ([values isEqual:key]) {
+                [result replaceObjectAtIndex:j withObject:[self.variableValues valueForKey:key]];
+                NSLog(@"valkey%@%@",values,[self.variableValues valueForKey:key]);
+            }
+        }
+    }
+    return result;
+}
+    
 - (id)program
 {
     return [self.programStack copy];
@@ -65,8 +89,8 @@
 - (NSDictionary *)variableValues
 {
     if (_variableValues == nil) _variableValues = [[NSDictionary alloc] init];
-    NSArray *keysArray = [NSArray arrayWithObjects:@"x",@"y",@"z", nil];
-    NSArray *valuesArray = [NSArray arrayWithObjects:[NSNumber numberWithInt:1],[NSNumber numberWithInt:2],[NSNumber numberWithInt:3], nil];
+    NSArray *keysArray = [NSArray arrayWithObjects:@"x",@"y",@"z",@"π", nil];
+    NSArray *valuesArray = [NSArray arrayWithObjects:[NSNumber numberWithInt:1],[NSNumber numberWithInt:2],[NSNumber numberWithInt:3],[NSNumber numberWithDouble:M_PI], nil];
     _variableValues = [NSDictionary dictionaryWithObjects:valuesArray forKeys:keysArray];
     return _variableValues;
 }
