@@ -38,7 +38,6 @@
         self.userIsInTheMiddleOfTheEnteringANumber = YES;
         self.userIsEnteringANumber = YES;
     }
-    NSLog(@"digit pressed = %@", digit);
 }
 
 - (IBAction)operationPressed:(UIButton *)sender 
@@ -78,7 +77,6 @@
         self.userIsInTheMiddleOfTheEnteringANumber = YES;
         self.userIsEnteringANumber = YES;
     }
-    NSLog(@"floatingPoint pressed = %@", @".");
 }
 
 - (IBAction)functionsPressed:(UIButton *)sender 
@@ -89,7 +87,6 @@
     self.log.text = [self.brain showDescription];
     NSString *resultString = [NSString stringWithFormat:@"%g", result];
     self.display.text = resultString;
-    NSLog(@"what pressed = %@", sender.currentTitle);
 }
 
 - (IBAction)piEntered:(UIButton *)sender {

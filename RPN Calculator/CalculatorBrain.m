@@ -55,31 +55,9 @@
 - (double)performOperation:(NSString *)operation
 {
     [self.programStack addObject:operation];
-    NSMutableArray *keysArray = [NSMutableArray arrayWithArray:self.variableValues.allKeys];
-    NSLog(@"%@",keysArray);
-    NSMutableArray *stackWithVariableValues = [self.program mutableCopy];
-    NSLog(@"%@",stackWithVariableValues);
-    stackWithVariableValues = [self replaceVariableWithValues:stackWithVariableValues usingKeysArray:keysArray];
-    NSLog(@"%@",stackWithVariableValues);
-    return [CalculatorBrain runProgram:stackWithVariableValues usingVariableValues:self.variableValues];
+    return [CalculatorBrain runProgram:self.program usingVariableValues:self.variableValues];
 }
 
-- (NSMutableArray *)replaceVariableWithValues:(NSMutableArray *)stack
-                               usingKeysArray:(NSMutableArray *)keysArray
-{
-    NSMutableArray *result = stack;
-    for (int i=0; i<=keysArray.count-1; i++) {
-        NSString *key = [keysArray objectAtIndex:i];
-        for (int j=0; j<=result.count-1; j++) {
-            NSString *values = [result objectAtIndex:j];
-            if ([values isEqual:key]) {
-                [result replaceObjectAtIndex:j withObject:[self.variableValues valueForKey:key]];
-                NSLog(@"valkey%@%@",values,[self.variableValues valueForKey:key]);
-            }
-        }
-    }
-    return result;
-}
     
 - (id)program
 {
@@ -107,7 +85,6 @@
 + (NSString *)buildDescriptionOfProgram:(NSMutableArray *)stack
 {
     id result = nil;
-    NSLog(@"stack_count%d", stack.count);
     id topOfStack = [stack lastObject];
     if (topOfStack) [stack removeLastObject];
     if ([topOfStack isKindOfClass:[NSNumber class]]) {
@@ -125,7 +102,6 @@
             result = topOfStack;
         }
     }
-    NSLog(@"result%@", result);
     return result;
 }
 
@@ -187,6 +163,23 @@
     return result;
 }
 
++ (NSMutableArray *)replaceVariableWithValuesIn:(NSMutableArray *)stack
+                        usingVariableDictionary:(NSDictionary *)variableValues
+                               usingKeysArray:(NSMutableArray *)keysArray
+{
+    NSMutableArray *result = stack;
+    for (int i=0; i<=keysArray.count-1; i++) {
+        NSString *key = [keysArray objectAtIndex:i];
+        for (int j=0; j<=result.count-1; j++) {
+            NSString *values = [result objectAtIndex:j];
+            if ([values isEqual:key]) {
+                [result replaceObjectAtIndex:j withObject:[variableValues valueForKey:key]];
+            }
+        }
+    }
+    return result;
+}
+
 + (double)runProgram:(id)program
  usingVariableValues:(NSDictionary *)variableValues
 {
@@ -194,6 +187,11 @@
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];
     }
+    
+    NSMutableArray *keysArray = [NSMutableArray arrayWithArray:variableValues.allKeys];
+    stack = [self replaceVariableWithValuesIn:stack usingVariableDictionary:variableValues usingKeysArray:keysArray];
+
+    
     return [self popOperandOffStack:stack];
 }
 
