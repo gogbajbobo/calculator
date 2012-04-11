@@ -131,32 +131,42 @@
     double result = 0;
     
     id topOfStack = [stack lastObject];
-    if (topOfStack) [stack removeLastObject];
+    if (topOfStack) {
+    
+        [stack removeLastObject];
 
-    if ([topOfStack isKindOfClass:[NSNumber class]]) {
-        result = [topOfStack doubleValue];
-    }
-    else if ([topOfStack isKindOfClass:[NSString class]]) {
-        
-        NSString *operation = topOfStack;
-        if ([operation isEqualToString:@"+"]) {
-            result = [self popOperandOffStack:stack] + [self popOperandOffStack:stack];
-        } else if ([@"*" isEqualToString:operation]) {
-            result = [self popOperandOffStack:stack] * [self popOperandOffStack:stack];
-        } else if ([@"/" isEqualToString:operation]) {
-            NSNumber *divider = [NSNumber numberWithDouble:[self popOperandOffStack:stack]];
-            result = [self popOperandOffStack:stack] / divider.doubleValue;
-        } else if ([@"-" isEqualToString:operation]) {
-            NSNumber *subtracter = [NSNumber numberWithDouble:[self popOperandOffStack:stack]];           
-            result = [self popOperandOffStack:stack] - subtracter.doubleValue;
-        } else if ([@"sin" isEqualToString:operation]) {
-            result = sin([self popOperandOffStack:stack]);
-        } else if ([@"cos" isEqualToString:operation]) {
-            result = cos([self popOperandOffStack:stack]);
-        } else if ([@"sqrt" isEqualToString:operation]) {
-            result = sqrt([self popOperandOffStack:stack]);
-        } else if ([@"π" isEqualToString:operation]) {
-            result = M_PI;
+        if ([topOfStack isKindOfClass:[NSNumber class]]) {
+            result = [topOfStack doubleValue];
+        }
+        else if ([topOfStack isKindOfClass:[NSString class]]) {
+            
+            NSString *operation = topOfStack;
+            if ([operation isEqualToString:@"+"]) {
+                result = [self popOperandOffStack:stack] + [self popOperandOffStack:stack];
+            } else if ([@"*" isEqualToString:operation]) {
+                result = [self popOperandOffStack:stack] * [self popOperandOffStack:stack];
+            } else if ([@"/" isEqualToString:operation]) {
+                NSNumber *divider = [NSNumber numberWithDouble:[self popOperandOffStack:stack]];
+                if (divider.doubleValue==0){
+                    divider=[NSNumber numberWithDouble:1];
+                } else {
+                    NSNumber *firstArgument = [NSNumber numberWithDouble:[self popOperandOffStack:stack]];
+                    result = firstArgument.doubleValue / divider.doubleValue;                    
+                }
+            } else if ([@"-" isEqualToString:operation]) {
+                NSNumber *subtracter = [NSNumber numberWithDouble:[self popOperandOffStack:stack]];           
+                result = [self popOperandOffStack:stack] - subtracter.doubleValue;
+            } else if ([@"sin" isEqualToString:operation]) {
+                result = sin([self popOperandOffStack:stack]);
+            } else if ([@"cos" isEqualToString:operation]) {
+                result = cos([self popOperandOffStack:stack]);
+            } else if ([@"sqrt" isEqualToString:operation]) {
+                result = sqrt([self popOperandOffStack:stack]);
+            } else if ([@"π" isEqualToString:operation]) {
+                result = M_PI;
+            } else {
+                result = 0;
+            }
         }
     }
     
