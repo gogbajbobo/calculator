@@ -97,8 +97,8 @@
         } else if ([[NSArray arrayWithObjects: @"+", @"*", @"-", @"/", nil] containsObject:topOfStack]) {
             id secondArgument = [self buildDescriptionOfProgram:stack usingVariablesNames:variablesNames];
             id firstArgument = [self buildDescriptionOfProgram:stack usingVariablesNames:variablesNames];
-            if ([firstArgument isKindOfClass:[NSString class]]) firstArgument = [NSString stringWithFormat:@"%@%@%@", @"(", firstArgument, @")"];
-            if ([secondArgument isKindOfClass:[NSString class]]) secondArgument = [NSString stringWithFormat:@"%@%@%@", @"(", secondArgument, @")"];
+            if ([firstArgument isKindOfClass:[NSString class]]&&![variablesNames containsObject:firstArgument]&&![firstArgument isEqual:@"π"]) firstArgument = [NSString stringWithFormat:@"%@%@%@", @"(", firstArgument, @")"];
+            if ([secondArgument isKindOfClass:[NSString class]]&&![variablesNames containsObject:secondArgument]&&![secondArgument isEqual:@"π"]) secondArgument = [NSString stringWithFormat:@"%@%@%@", @"(", secondArgument, @")"];
             result = [NSString stringWithFormat:@"%@%@%@", firstArgument, topOfStack, secondArgument];                
         } else {
             result = topOfStack;
