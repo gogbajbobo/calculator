@@ -35,27 +35,21 @@
 
 - (void)pushOperand:(id)operand
 {
-    NSArray *operationArray = [NSArray arrayWithObjects:@"sin", @"cos", @"sqrt", nil];
     if ([operand isKindOfClass:[NSNumber class]]) {
-        [self.programStack addObject:[NSNumber numberWithDouble:[operand doubleValue]]];
+        [self.programStack 
+         addObject:[NSNumber numberWithDouble:[operand doubleValue]]];
     } else if ([operand isKindOfClass:[NSString class]]) {
-        if ([operationArray containsObject:operand]) {
-            [self.programStack addObject:[NSString stringWithString:[operand stringValue]]];
-        } else if ([operand isEqual:@"π"]) {
-            [self.programStack addObject:@"π"];
-        } else if ([self.variableValues.allKeys containsObject:operand]) {
-//            [self.programStack addObject:[self.variableValues valueForKey:operand]];
-            [self.programStack addObject:operand];
-        } else {
-            [self.programStack addObject:[NSNumber numberWithInt:0]];
-        }
+        [self.programStack 
+         addObject:[NSString stringWithString:operand]];
     }
 }
 
 - (double)performOperation:(NSString *)operation
 {
     [self.programStack addObject:operation];
-    return [CalculatorBrain runProgram:self.program usingVariableValues:self.variableValues];
+    return [CalculatorBrain 
+            runProgram:self.program 
+            usingVariableValues:self.variableValues];
 }
 
     
@@ -67,9 +61,21 @@
 - (NSDictionary *)variableValues
 {
     if (_variableValues == nil) _variableValues = [[NSDictionary alloc] init];
-    NSArray *keysArray = [NSArray arrayWithObjects:@"x",@"y",@"z", nil];
-    NSArray *valuesArray = [NSArray arrayWithObjects:[NSNumber numberWithInt:1],[NSNumber numberWithInt:2],[NSNumber numberWithInt:3], nil];
-    _variableValues = [NSDictionary dictionaryWithObjects:valuesArray forKeys:keysArray];
+    NSArray *keysArray = [NSArray 
+                          arrayWithObjects:
+                          @"x",
+                          @"y",
+                          @"z",
+                          nil];
+    NSArray *valuesArray = [NSArray 
+                            arrayWithObjects:
+                            [NSNumber numberWithInt:1],
+                            [NSNumber numberWithInt:2],
+                            [NSNumber numberWithInt:3],
+                            nil];
+    _variableValues = [NSDictionary 
+                       dictionaryWithObjects:valuesArray 
+                       forKeys:keysArray];
     return _variableValues;
 }
 
@@ -80,7 +86,9 @@
         stack = [program mutableCopy];
     }
     NSLog(@"variables %@",[self variablesUsedInProgram:stack]);
-    return [self buildDescriptionOfProgram:(NSMutableArray *)stack usingVariablesNames:[self variablesUsedInProgram:stack]];
+    return [self 
+            buildDescriptionOfProgram:(NSMutableArray *)stack 
+            usingVariablesNames:[self variablesUsedInProgram:stack]];
 }
 
 + (NSString *)buildDescriptionOfProgram:(NSMutableArray *)stack
@@ -92,6 +100,7 @@
     if ([topOfStack isKindOfClass:[NSNumber class]]) {
         result = topOfStack;
     } else if ([topOfStack isKindOfClass:[NSString class]]) {
+// Rewrite code below this line
         if ([[NSArray arrayWithObjects: @"sin", @"cos", @"sqrt", nil] containsObject:topOfStack]) {
             result = [NSString stringWithFormat:@"%@%@%@%@", topOfStack, @"(", [self buildDescriptionOfProgram:stack usingVariablesNames:variablesNames], @")"];
         } else if ([[NSArray arrayWithObjects: @"+", @"*", @"-", @"/", nil] containsObject:topOfStack]) {
@@ -100,6 +109,7 @@
             if ([firstArgument isKindOfClass:[NSString class]]&&![variablesNames containsObject:firstArgument]&&![firstArgument isEqual:@"π"]) firstArgument = [NSString stringWithFormat:@"%@%@%@", @"(", firstArgument, @")"];
             if ([secondArgument isKindOfClass:[NSString class]]&&![variablesNames containsObject:secondArgument]&&![secondArgument isEqual:@"π"]) secondArgument = [NSString stringWithFormat:@"%@%@%@", @"(", secondArgument, @")"];
             result = [NSString stringWithFormat:@"%@%@%@", firstArgument, topOfStack, secondArgument];                
+// Rewrite code before this line
         } else {
             result = topOfStack;
         }
@@ -109,7 +119,17 @@
 
 + (NSSet *)variablesUsedInProgram:(id)program
 {
-    NSSet *operationSet = [NSSet setWithObjects:@"sin",@"cos",@"sqrt",@"*",@"/",@"+",@"-",@"π", nil];
+    NSSet *operationSet = [NSSet 
+                           setWithObjects:
+                            @"sin",
+                            @"cos",
+                            @"sqrt",
+                            @"*",
+                            @"/",
+                            @"+",
+                            @"-",
+                            @"π", 
+                            nil];
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];
@@ -118,26 +138,32 @@
 }
 
 + (NSSet *)variableFinder:(NSMutableArray *)stack
-      usingOperationSet:(NSSet *)operationSet
+        usingOperationSet:(NSSet *)operationSet
 {
     NSMutableSet *varSet = [NSMutableSet set];
     id topOfStack = [stack lastObject];
     if (topOfStack) {
         [stack removeLastObject];
         if ([topOfStack isKindOfClass:[NSString class]]) {
-            NSLog(@"%@",@"topOfStack isKindOfClass");
+NSLog(@"%@",@"topOfStack isKindOfClass");
             if (![operationSet containsObject:topOfStack]){
-                NSLog(@"%@",@"topOfStack not in operationSet");
+NSLog(@"%@",@"topOfStack not in operationSet");
                 if (![varSet containsObject:topOfStack]) {
-                    NSLog(@"%@",@"topOfStack not yet in varSet");
-                    [varSet unionSet:[[self variableFinder:stack usingOperationSet:operationSet] setByAddingObject:topOfStack]];
-                    NSLog(@"new var added %@",varSet);
+NSLog(@"%@",@"topOfStack not yet in varSet");
+                    [varSet 
+                     unionSet:
+                        [[self 
+                          variableFinder:stack 
+                          usingOperationSet:operationSet] 
+                     setByAddingObject:topOfStack]];
+NSLog(@"new var added %@",varSet);
                 }
             }
         }
-        [varSet unionSet:[self variableFinder:stack usingOperationSet:operationSet]];
+        [varSet unionSet:[self variableFinder:stack 
+                            usingOperationSet:operationSet]];
     }
-    NSLog(@"vS%@",varSet);
+NSLog(@"vS%@",varSet);
     return varSet;
 }
 
@@ -190,7 +216,7 @@
 
 + (NSMutableArray *)replaceVariableWithValuesIn:(NSMutableArray *)stack
                         usingVariableDictionary:(NSDictionary *)variableValues
-                               usingKeysArray:(NSMutableArray *)keysArray
+                                 usingKeysArray:(NSMutableArray *)keysArray
 {
     NSMutableArray *result = stack;
     for (int i=0; i<=keysArray.count-1; i++) {
@@ -198,7 +224,8 @@
         for (int j=0; j<=result.count-1; j++) {
             NSString *values = [result objectAtIndex:j];
             if ([values isEqual:key]) {
-                [result replaceObjectAtIndex:j withObject:[variableValues valueForKey:key]];
+                [result replaceObjectAtIndex:j 
+                                  withObject:[variableValues valueForKey:key]];
             }
         }
     }
@@ -217,7 +244,7 @@
     stack = [self replaceVariableWithValuesIn:stack usingVariableDictionary:variableValues usingKeysArray:keysArray];
 
     
-    return [self popOperandOffStack:stack];
+    return [self runProgram:stack];
 }
 
 + (double)runProgram:(id)program

@@ -44,7 +44,6 @@
 {
     if (self.userIsInTheMiddleOfTheEnteringANumber) [self enterPressed];
     double result = [self.brain performOperation:sender.currentTitle];
-//    self.log.text = [self.log.text stringByAppendingString:[sender.currentTitle stringByAppendingString:@" "]];
     self.log.text = [self.brain showDescription];
     NSString *resultString = [NSString stringWithFormat:@"%g", result];
     self.display.text = resultString;
@@ -52,13 +51,12 @@
 
 - (IBAction)enterPressed {
     if (self.userIsInTheMiddleOfTheEnteringANumber) {
-//        self.log.text = [self.log.text stringByAppendingString:[self.display.text stringByAppendingString:@" "]];
         if (self.userIsEnteringANumber) {
             [self.brain pushOperand:[NSNumber numberWithDouble:[self.display.text doubleValue]]];
-            NSLog(@"enter pressed, send to brain = %@", self.display.text);
+NSLog(@"enter pressed, send to brain = %@", self.display.text);
         } else {
             [self.brain pushOperand:self.display.text];        
-            NSLog(@"enter pressed, send to brain = %@", self.display.text);
+NSLog(@"enter pressed, send to brain = %@", self.display.text);
         }
         self.userIsInTheMiddleOfTheEnteringANumber = NO;
         self.userIsEnteringANumber = NO;
@@ -83,7 +81,6 @@
 {
     if (self.userIsInTheMiddleOfTheEnteringANumber) [self enterPressed];
     double result = [self.brain performOperation:sender.currentTitle];
-//    self.log.text = [self.log.text stringByAppendingString:[sender.currentTitle stringByAppendingString:@" "]];
     self.log.text = [self.brain showDescription];
     NSString *resultString = [NSString stringWithFormat:@"%g", result];
     self.display.text = resultString;
@@ -91,7 +88,6 @@
 
 - (IBAction)piEntered:(UIButton *)sender {
     if (self.userIsInTheMiddleOfTheEnteringANumber) [self enterPressed];
-//    self.display.text = [NSString stringWithFormat:@"%g", M_PI];
     self.display.text = [NSString stringWithString:@"π"];
     self.userIsInTheMiddleOfTheEnteringANumber = YES;
     [self enterPressed];
