@@ -21,6 +21,7 @@
 @synthesize display = _display;
 @synthesize log = _log;
 @synthesize brain = _brain;
+@synthesize varsDisplay = _varsDisplay;
 @synthesize variableValues = _variableValues;
 
 - (CalculatorBrain *)brain
@@ -48,6 +49,11 @@
     _variableValues = [NSDictionary 
                        dictionaryWithObjects:valuesArray 
                        forKeys:keysArray];
+    NSString *displayText = @"";
+    for (int i=0; i<keysArray.count; i++) {
+        displayText = [displayText stringByAppendingString:[NSString stringWithFormat:@"%@ = %@  ",[keysArray objectAtIndex:i],[[valuesArray objectAtIndex:i] stringValue]]];
+    }
+    self.varsDisplay.text = displayText;
     return _variableValues;
 }
 
@@ -132,6 +138,7 @@
 
 - (void)viewDidUnload {
     [self setLog:nil];
+    [self setVarsDisplay:nil];
     [super viewDidUnload];
 }
 
@@ -142,5 +149,10 @@
     self.userIsInTheMiddleOfTheEnteringANumber = YES;
     [self enterPressed];
 }
+
+- (IBAction)testButtonPressed:(UIButton *)sender {
+    
+}
+
 
 @end
