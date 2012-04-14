@@ -53,10 +53,8 @@
     if (self.userIsInTheMiddleOfTheEnteringANumber) {
         if (self.userIsEnteringANumber) {
             [self.brain pushOperand:[NSNumber numberWithDouble:[self.display.text doubleValue]]];
-NSLog(@"enter pressed, send to brain = %@", self.display.text);
         } else {
             [self.brain pushOperand:self.display.text];        
-NSLog(@"enter pressed, send to brain = %@", self.display.text);
         }
         self.userIsInTheMiddleOfTheEnteringANumber = NO;
         self.userIsEnteringANumber = NO;

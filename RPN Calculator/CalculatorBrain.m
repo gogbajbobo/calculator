@@ -85,33 +85,38 @@
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];
     }
-    NSLog(@"variables %@",[self variablesUsedInProgram:stack]);
     return [self 
             buildDescriptionOfProgram:(NSMutableArray *)stack 
-            usingVariablesNames:[self variablesUsedInProgram:stack]];
+            callingByOperationWithPriority:0];
 }
 
 + (NSString *)buildDescriptionOfProgram:(NSMutableArray *)stack
-                    usingVariablesNames:(NSSet *)variablesNames
+         callingByOperationWithPriority:(int)priority
 {
     id result = nil;
     id topOfStack = [stack lastObject];
-    if (topOfStack) [stack removeLastObject];
-    if ([topOfStack isKindOfClass:[NSNumber class]]) {
-        result = topOfStack;
-    } else if ([topOfStack isKindOfClass:[NSString class]]) {
-// Rewrite code below this line
-        if ([[NSArray arrayWithObjects: @"sin", @"cos", @"sqrt", nil] containsObject:topOfStack]) {
-            result = [NSString stringWithFormat:@"%@%@%@%@", topOfStack, @"(", [self buildDescriptionOfProgram:stack usingVariablesNames:variablesNames], @")"];
-        } else if ([[NSArray arrayWithObjects: @"+", @"*", @"-", @"/", nil] containsObject:topOfStack]) {
-            id secondArgument = [self buildDescriptionOfProgram:stack usingVariablesNames:variablesNames];
-            id firstArgument = [self buildDescriptionOfProgram:stack usingVariablesNames:variablesNames];
-            if ([firstArgument isKindOfClass:[NSString class]]&&![variablesNames containsObject:firstArgument]&&![firstArgument isEqual:@"π"]) firstArgument = [NSString stringWithFormat:@"%@%@%@", @"(", firstArgument, @")"];
-            if ([secondArgument isKindOfClass:[NSString class]]&&![variablesNames containsObject:secondArgument]&&![secondArgument isEqual:@"π"]) secondArgument = [NSString stringWithFormat:@"%@%@%@", @"(", secondArgument, @")"];
-            result = [NSString stringWithFormat:@"%@%@%@", firstArgument, topOfStack, secondArgument];                
-// Rewrite code before this line
-        } else {
+    if (topOfStack) {
+        [stack removeLastObject];
+        if ([topOfStack isKindOfClass:[NSNumber class]]) {
             result = topOfStack;
+        } else if ([topOfStack isKindOfClass:[NSString class]]) {
+            if ([[NSArray arrayWithObjects: @"sin", @"cos", @"sqrt", nil] containsObject:topOfStack]) {
+                result = [NSString stringWithFormat:@"%@%@", topOfStack, [self buildDescriptionOfProgram:stack callingByOperationWithPriority:2]];
+            } else if ([[NSArray arrayWithObjects: @"+", @"*", @"-", @"/", nil] containsObject:topOfStack]) {
+                int p = 0;
+                if ([topOfStack isEqual:@"*"]||[topOfStack isEqual:@"/"]) p = 1;
+                id secondArgument = [self buildDescriptionOfProgram:stack callingByOperationWithPriority:p];
+                id firstArgument = [self buildDescriptionOfProgram:stack callingByOperationWithPriority:p];
+                NSString *stringFormat;
+                if (priority>p) {
+                    stringFormat = @"(%@)";
+                } else {
+                    stringFormat = @"%@";
+                }
+                result = [NSString stringWithFormat:stringFormat,[NSString stringWithFormat:@"%@%@%@",firstArgument,topOfStack,secondArgument]];
+            } else {
+                result = topOfStack;
+            }
         }
     }
     return result;
@@ -145,25 +150,20 @@
     if (topOfStack) {
         [stack removeLastObject];
         if ([topOfStack isKindOfClass:[NSString class]]) {
-NSLog(@"%@",@"topOfStack isKindOfClass");
             if (![operationSet containsObject:topOfStack]){
-NSLog(@"%@",@"topOfStack not in operationSet");
                 if (![varSet containsObject:topOfStack]) {
-NSLog(@"%@",@"topOfStack not yet in varSet");
                     [varSet 
                      unionSet:
                         [[self 
                           variableFinder:stack 
                           usingOperationSet:operationSet] 
                      setByAddingObject:topOfStack]];
-NSLog(@"new var added %@",varSet);
                 }
             }
         }
         [varSet unionSet:[self variableFinder:stack 
                             usingOperationSet:operationSet]];
     }
-NSLog(@"vS%@",varSet);
     return varSet;
 }
 
