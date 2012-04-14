@@ -101,7 +101,7 @@
             result = topOfStack;
         } else if ([topOfStack isKindOfClass:[NSString class]]) {
             if ([[NSArray arrayWithObjects: @"sin", @"cos", @"sqrt", nil] containsObject:topOfStack]) {
-                result = [NSString stringWithFormat:@"%@%@", topOfStack, [self buildDescriptionOfProgram:stack callingByOperationWithPriority:2]];
+                result = [NSString stringWithFormat:@"%@(%@)", topOfStack, [self buildDescriptionOfProgram:stack callingByOperationWithPriority:0]];
             } else if ([[NSArray arrayWithObjects: @"+", @"*", @"-", @"/", nil] containsObject:topOfStack]) {
                 int p = 0;
                 if ([topOfStack isEqual:@"*"]||[topOfStack isEqual:@"/"]) p = 1;
