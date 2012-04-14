@@ -58,6 +58,11 @@
         }
         self.userIsInTheMiddleOfTheEnteringANumber = NO;
         self.userIsEnteringANumber = NO;
+//        if ([self.log.text isEqualToString:@""]) {
+            self.log.text = [self.brain showDescription];
+//        } else {
+//            self.log.text = [NSString stringWithFormat:@"%@,%@",self.log.text,[self.brain showDescription]];            
+//        }
     }
 }
 

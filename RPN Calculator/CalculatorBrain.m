@@ -93,18 +93,18 @@
 + (NSString *)buildDescriptionOfProgram:(NSMutableArray *)stack
          callingByOperationWithPriority:(int)priority
 {
-    id result = nil;
+    NSString *result = nil;
     id topOfStack = [stack lastObject];
     if (topOfStack) {
         [stack removeLastObject];
         if ([topOfStack isKindOfClass:[NSNumber class]]) {
-            result = topOfStack;
+            result = [topOfStack stringValue];
         } else if ([topOfStack isKindOfClass:[NSString class]]) {
             if ([[NSArray arrayWithObjects: @"sin", @"cos", @"sqrt", nil] containsObject:topOfStack]) {
-                result = [NSString stringWithFormat:@"%@(%@)", topOfStack, [self buildDescriptionOfProgram:stack callingByOperationWithPriority:0]];
+                result = [NSString stringWithFormat:@"%@(%@)", topOfStack, [self buildDescriptionOfProgram:stack callingByOperationWithPriority:1]];
             } else if ([[NSArray arrayWithObjects: @"+", @"*", @"-", @"/", nil] containsObject:topOfStack]) {
-                int p = 0;
-                if ([topOfStack isEqual:@"*"]||[topOfStack isEqual:@"/"]) p = 1;
+                int p = 1;
+                if ([topOfStack isEqual:@"*"]||[topOfStack isEqual:@"/"]) p = 2;
                 id secondArgument = [self buildDescriptionOfProgram:stack callingByOperationWithPriority:p];
                 id firstArgument = [self buildDescriptionOfProgram:stack callingByOperationWithPriority:p];
                 NSString *stringFormat;
@@ -119,6 +119,8 @@
             }
         }
     }
+    NSLog(@"p&s.c %d %d ",priority,stack.count);
+    if (priority==0 && stack.count>0) result = [NSString stringWithFormat:@"%@,%@",result,[self buildDescriptionOfProgram:stack callingByOperationWithPriority:0]];
     return result;
 }
 
@@ -182,7 +184,7 @@
         else if ([topOfStack isKindOfClass:[NSString class]]) {
             
             NSString *operation = topOfStack;
-            if ([operation isEqualToString:@"+"]) {
+            if ([@"+" isEqualToString:operation]) {
                 result = [self popOperandOffStack:stack] + [self popOperandOffStack:stack];
             } else if ([@"*" isEqualToString:operation]) {
                 result = [self popOperandOffStack:stack] * [self popOperandOffStack:stack];
