@@ -14,10 +14,13 @@
 - (double)performOperation:(NSString *)operation;
 - (void)clearBrain;
 - (NSString *)showDescription;
+- (void)setVariableValuesWith:(NSDictionary *)variableDictionary;
 
 @property (readonly) id program;
 
 @property (nonatomic, strong) NSDictionary *variableValues;
+
+@property (nonatomic, strong) NSDictionary *constantValues;
 
 + (double) runProgram:(id)program;
 
@@ -29,3 +32,4 @@
 + (NSSet *)variablesUsedInProgram:(id)program;
 
 @end
+

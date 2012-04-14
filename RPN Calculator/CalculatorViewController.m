@@ -21,11 +21,34 @@
 @synthesize display = _display;
 @synthesize log = _log;
 @synthesize brain = _brain;
+@synthesize variableValues = _variableValues;
 
 - (CalculatorBrain *)brain
 {
     if(!_brain) _brain = [[CalculatorBrain alloc] init];
+    [_brain setVariableValuesWith:self.variableValues];
     return _brain;
+}
+
+- (NSDictionary *)variableValues
+{
+    if (_variableValues == nil) _variableValues = [[NSDictionary alloc] init];
+    NSArray *keysArray = [NSArray 
+                          arrayWithObjects:
+                          @"x",
+                          @"y",
+                          @"z",
+                          nil];
+    NSArray *valuesArray = [NSArray 
+                            arrayWithObjects:
+                            [NSNumber numberWithInt:1],
+                            [NSNumber numberWithInt:2],
+                            [NSNumber numberWithInt:3],
+                            nil];
+    _variableValues = [NSDictionary 
+                       dictionaryWithObjects:valuesArray 
+                       forKeys:keysArray];
+    return _variableValues;
 }
 
 - (IBAction)digitPressed:(UIButton *)sender 
@@ -58,11 +81,7 @@
         }
         self.userIsInTheMiddleOfTheEnteringANumber = NO;
         self.userIsEnteringANumber = NO;
-//        if ([self.log.text isEqualToString:@""]) {
             self.log.text = [self.brain showDescription];
-//        } else {
-//            self.log.text = [NSString stringWithFormat:@"%@,%@",self.log.text,[self.brain showDescription]];            
-//        }
     }
 }
 

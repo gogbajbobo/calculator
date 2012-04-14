@@ -12,4 +12,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *display;
 @property (weak, nonatomic) IBOutlet UILabel *log;
 
+@property (nonatomic, strong) NSDictionary *variableValues;
+
 @end

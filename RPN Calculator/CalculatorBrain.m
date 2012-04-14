@@ -11,16 +11,31 @@
 
 @interface CalculatorBrain ()
 @property (nonatomic, strong) NSMutableArray *programStack;
+
 @end
 
 @implementation CalculatorBrain
 
 @synthesize programStack = _programStack;
 @synthesize variableValues = _variableValues;
+@synthesize constantValues = _constantValues;
+
+
+- (void)setVariableValuesWith:(NSDictionary *)variableDictionary {
+    if ([variableDictionary isKindOfClass:NSDictionary.class]) {
+        self.variableValues = variableDictionary;        
+    } else {
+        self.variableValues = [NSDictionary dictionary];
+    }
+}
+
 
 - (NSString *)showDescription
 {
-    return [self.class descriptionOfProgram:self.program];
+    return [self.class 
+                descriptionOfProgram:self.program
+//                usingVariableValues:self.variableValues
+            ];
 }
 
 - (NSMutableArray *)programStack
@@ -58,25 +73,15 @@
     return [self.programStack copy];
 }
 
-- (NSDictionary *)variableValues
++ (NSString *)descriptionOfProgram:(id)program
+               usingVariableValues:(NSDictionary *)variableValues
 {
-    if (_variableValues == nil) _variableValues = [[NSDictionary alloc] init];
-    NSArray *keysArray = [NSArray 
-                          arrayWithObjects:
-                          @"x",
-                          @"y",
-                          @"z",
-                          nil];
-    NSArray *valuesArray = [NSArray 
-                            arrayWithObjects:
-                            [NSNumber numberWithInt:1],
-                            [NSNumber numberWithInt:2],
-                            [NSNumber numberWithInt:3],
-                            nil];
-    _variableValues = [NSDictionary 
-                       dictionaryWithObjects:valuesArray 
-                       forKeys:keysArray];
-    return _variableValues;
+    NSMutableArray *stack;
+    if ([program isKindOfClass:[NSArray class]]) {
+        stack = [program mutableCopy];
+    }
+    stack = [self replaceVariableWithValuesIn:stack usingVariableDictionary:variableValues];
+    return [self descriptionOfProgram:stack];
 }
 
 + (NSString *)descriptionOfProgram:(id)program
@@ -119,7 +124,6 @@
             }
         }
     }
-    NSLog(@"p&s.c %d %d ",priority,stack.count);
     if (priority==0 && stack.count>0) result = [NSString stringWithFormat:@"%@,%@",result,[self buildDescriptionOfProgram:stack callingByOperationWithPriority:0]];
     return result;
 }
@@ -135,7 +139,8 @@
                             @"/",
                             @"+",
                             @"-",
-                            @"π", 
+                            @"π",
+                            @"e",
                             nil];
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) {
@@ -218,9 +223,9 @@
 
 + (NSMutableArray *)replaceVariableWithValuesIn:(NSMutableArray *)stack
                         usingVariableDictionary:(NSDictionary *)variableValues
-                                 usingKeysArray:(NSMutableArray *)keysArray
 {
     NSMutableArray *result = stack;
+    NSMutableArray *keysArray = [NSMutableArray arrayWithArray:variableValues.allKeys];
     for (int i=0; i<=keysArray.count-1; i++) {
         NSString *key = [keysArray objectAtIndex:i];
         for (int j=0; j<=result.count-1; j++) {
@@ -241,11 +246,7 @@
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];
     }
-    
-    NSMutableArray *keysArray = [NSMutableArray arrayWithArray:variableValues.allKeys];
-    stack = [self replaceVariableWithValuesIn:stack usingVariableDictionary:variableValues usingKeysArray:keysArray];
-
-    
+    stack = [self replaceVariableWithValuesIn:stack usingVariableDictionary:variableValues];
     return [self runProgram:stack];
 }
 
