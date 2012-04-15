@@ -61,13 +61,20 @@
 
 - (double)performOperation:(NSString *)operation
 {
-    [self.programStack addObject:operation];
+    if ([operation isEqualToString:@"Undo"]) {
+        NSLog(@"Undo pressed");
+        if ([self.programStack lastObject]) {
+            [self.programStack removeLastObject];
+            NSLog(@"Last object YES");
+        }
+    } else {
+        [self.programStack addObject:operation];
+    }
     return [CalculatorBrain 
             runProgram:self.program 
             usingVariableValues:self.variableValues];
 }
 
-    
 - (id)program
 {
     return [self.programStack copy];
@@ -179,8 +186,9 @@
     double result = 0;
     
     id topOfStack = [stack lastObject];
+    NSLog(@"popOperandOffStack");
     if (topOfStack) {
-    
+        NSLog(@"topOfStack YES");
         [stack removeLastObject];
 
         if ([topOfStack isKindOfClass:[NSNumber class]]) {
@@ -224,15 +232,18 @@
 + (NSMutableArray *)replaceVariableWithValuesIn:(NSMutableArray *)stack
                         usingVariableDictionary:(NSDictionary *)variableValues
 {
+    NSLog(@"replaceVWV");
     NSMutableArray *result = stack;
-    NSMutableArray *keysArray = [NSMutableArray arrayWithArray:variableValues.allKeys];
-    for (int i=0; i<=keysArray.count-1; i++) {
-        NSString *key = [keysArray objectAtIndex:i];
-        for (int j=0; j<=result.count-1; j++) {
-            NSString *values = [result objectAtIndex:j];
-            if ([values isEqual:key]) {
-                [result replaceObjectAtIndex:j 
-                                  withObject:[variableValues valueForKey:key]];
+    if (result.count>0) {
+        NSMutableArray *keysArray = [NSMutableArray arrayWithArray:variableValues.allKeys];
+        for (int i=0; i<=keysArray.count-1; i++) {
+            NSString *key = [keysArray objectAtIndex:i];
+            for (int j=0; j<=result.count-1; j++) {
+                NSString *values = [result objectAtIndex:j];
+                if ([values isEqual:key]) {
+                    [result replaceObjectAtIndex:j 
+                                      withObject:[variableValues valueForKey:key]];
+                }
             }
         }
     }
@@ -242,6 +253,7 @@
 + (double)runProgram:(id)program
  usingVariableValues:(NSDictionary *)variableValues
 {
+    NSLog(@"runProgram usingVV");
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];

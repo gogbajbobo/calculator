@@ -47,7 +47,9 @@
 {
     if (self.userIsInTheMiddleOfTheEnteringANumber) [self enterPressed];
     double result = [self.brain performOperation:sender.currentTitle];
+    NSLog(@"opPressed result = %f",result);
     self.log.text = [self.brain showDescription];
+    NSLog(@"opPressed log text = %@",self.log.text);
     NSString *resultString = [NSString stringWithFormat:@"%g", result];
     self.display.text = resultString;
 }
@@ -171,6 +173,21 @@
     return [NSDictionary dictionaryWithObjects:valuesArray 
                                        forKeys:keysArray];
 }
+
+- (IBAction)undoButtonPressed:(UIButton *)sender {
+    if (self.userIsInTheMiddleOfTheEnteringANumber) {
+        if ([self.display.text length]>0) {
+            self.display.text = [self.display.text substringToIndex:[self.display.text length]-1];        
+        } else {
+            self.userIsInTheMiddleOfTheEnteringANumber = NO;
+            self.display.text = @"end";
+        }
+    } else {
+        NSLog(@"opPressed %@",sender.currentTitle);
+        [self operationPressed:sender];
+    }
+}
+
 
 
 
