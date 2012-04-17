@@ -32,7 +32,7 @@
 
 - (NSString *)showDescription
 {
-    return [self.class 
+    return [CalculatorBrain 
                 descriptionOfProgram:self.program
 //                usingVariableValues:self.variableValues
             ];
