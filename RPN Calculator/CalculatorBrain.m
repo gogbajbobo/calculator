@@ -147,7 +147,7 @@
                             @"+",
                             @"-",
                             @"π",
-                            @"e",
+//                            @"e",
                             nil];
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) {

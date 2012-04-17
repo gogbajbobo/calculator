@@ -21,7 +21,7 @@
 @synthesize display = _display;
 @synthesize log = _log;
 @synthesize brain = _brain;
-@synthesize varsDisplay = _varsDisplay;
+//@synthesize varsDisplay = _varsDisplay;
 @synthesize variableValues = _variableValues;
 
 - (CalculatorBrain *)brain
@@ -119,38 +119,38 @@
     [self enterPressed];
 }
 
-- (IBAction)testButtonPressed:(UIButton *)sender {
-    NSArray *valuesArray = [NSArray array];
-    if ([sender.currentTitle isEqualToString:@"test0"]) {
-        [self setVariableValues:nil];
-    } else {
-        if ([sender.currentTitle isEqualToString:@"test1"]) {
-            valuesArray = [NSArray 
-                       arrayWithObjects:
-                       [NSNumber numberWithInt:1],
-                       [NSNumber numberWithInt:2],
-                       [NSNumber numberWithInt:3],
-                       nil];
-            NSLog(@"%@",valuesArray);
-        } else if ([sender.currentTitle isEqualToString:@"test2"]) {
-            valuesArray = [NSArray 
-                       arrayWithObjects:
-                       [NSNumber numberWithDouble:1.23],
-                       [NSNumber numberWithDouble:2.34],
-                       [NSNumber numberWithDouble:3.45],
-                       nil];
-            NSLog(@"%@",valuesArray);
-        }
-        [self setVariableValues:[self createVariableDictionary:valuesArray]];
-    }
-}
+//- (IBAction)testButtonPressed:(UIButton *)sender {
+//    NSArray *valuesArray = [NSArray array];
+//    if ([sender.currentTitle isEqualToString:@"test0"]) {
+//        [self setVariableValues:nil];
+//    } else {
+//        if ([sender.currentTitle isEqualToString:@"test1"]) {
+//            valuesArray = [NSArray 
+//                       arrayWithObjects:
+//                       [NSNumber numberWithInt:1],
+//                       [NSNumber numberWithInt:2],
+//                       [NSNumber numberWithInt:3],
+//                       nil];
+//            NSLog(@"%@",valuesArray);
+//        } else if ([sender.currentTitle isEqualToString:@"test2"]) {
+//            valuesArray = [NSArray 
+//                       arrayWithObjects:
+//                       [NSNumber numberWithDouble:1.23],
+//                       [NSNumber numberWithDouble:2.34],
+//                       [NSNumber numberWithDouble:3.45],
+//                       nil];
+//            NSLog(@"%@",valuesArray);
+//        }
+//        [self setVariableValues:[self createVariableDictionary:valuesArray]];
+//    }
+//}
 
 - (void)initializeVariables {
     NSArray *valuesArray = [NSArray 
                             arrayWithObjects:
                             [NSNumber numberWithInt:1],
-                            [NSNumber numberWithInt:2],
-                            [NSNumber numberWithInt:3],
+//                            [NSNumber numberWithInt:2],
+//                            [NSNumber numberWithInt:3],
                             nil];
     [self setVariableValues:[self createVariableDictionary:valuesArray]];
 }
@@ -160,15 +160,15 @@
     NSArray *keysArray = [NSArray 
                           arrayWithObjects:
                           @"x",
-                          @"y",
-                          @"z",
+//                          @"y",
+//                          @"z",
                           nil];
     NSString *displayText = @"";
     for (int i=0; i<keysArray.count; i++) {
         displayText = [displayText stringByAppendingString:[NSString stringWithFormat:@"%@ = %@  ",[keysArray objectAtIndex:i],[[valuesArray objectAtIndex:i] stringValue]]];
     }
     NSLog(@"dT %@",displayText);
-    self.varsDisplay.text = displayText;
+//    self.varsDisplay.text = displayText;
 
     return [NSDictionary dictionaryWithObjects:valuesArray 
                                        forKeys:keysArray];
@@ -193,7 +193,7 @@
 
 - (void)viewDidUnload {
     [self setLog:nil];
-    [self setVarsDisplay:nil];
+//    [self setVarsDisplay:nil];
     [super viewDidUnload];
 }
 
