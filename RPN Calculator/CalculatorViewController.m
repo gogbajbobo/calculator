@@ -47,9 +47,7 @@
 {
     if (self.userIsInTheMiddleOfTheEnteringANumber) [self enterPressed];
     double result = [self.brain performOperation:sender.currentTitle];
-    NSLog(@"opPressed result = %f",result);
     self.log.text = [self.brain showDescription];
-    NSLog(@"opPressed log text = %@",self.log.text);
     NSString *resultString = [NSString stringWithFormat:@"%g", result];
     self.display.text = resultString;
 }
@@ -167,7 +165,6 @@
     for (int i=0; i<keysArray.count; i++) {
         displayText = [displayText stringByAppendingString:[NSString stringWithFormat:@"%@ = %@  ",[keysArray objectAtIndex:i],[[valuesArray objectAtIndex:i] stringValue]]];
     }
-    NSLog(@"dT %@",displayText);
 //    self.varsDisplay.text = displayText;
 
     return [NSDictionary dictionaryWithObjects:valuesArray 
@@ -183,10 +180,34 @@
             self.display.text = @"end";
         }
     } else {
-        NSLog(@"opPressed %@",sender.currentTitle);
         [self operationPressed:sender];
     }
 }
+
+- (NSDictionary *)resultForGraphFrom:(double)xstart
+                          until:(double)xend
+                       withStep:(double)xstep
+{
+    NSMutableArray *keys = [NSMutableArray array];
+    NSMutableArray *values = [NSMutableArray array];
+    for (double i = xstart; i <= xend; i += xstep) {
+        [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithDouble:i], nil]]];
+        [values addObject:[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]]];
+        [keys addObject:[NSString stringWithFormat:@"%f",i]];
+        NSLog(@"i%f",i);
+    }
+    NSLog(@"k%@v%@",keys,values);
+    NSLog(@"1%@",[NSDictionary dictionaryWithObjects:values forKeys:keys]);
+    return [NSDictionary dictionaryWithObjects:values forKeys:keys];
+}
+
+- (IBAction)graph:(UIButton *)sender {
+    NSDictionary *temp = [NSDictionary dictionaryWithDictionary:[self resultForGraphFrom:0 until:1.5 withStep:0.5]];
+    NSLog(@"2%@",temp);
+}
+
+
+
 
 
 

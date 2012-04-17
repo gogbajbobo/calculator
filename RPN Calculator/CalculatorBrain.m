@@ -67,6 +67,8 @@
             [self.programStack removeLastObject];
             NSLog(@"Last object YES");
         }
+    } else if ([operation isEqualToString:@"Result"]) {
+        
     } else {
         [self.programStack addObject:operation];
     }

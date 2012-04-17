@@ -401,6 +401,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="graph:" destination="2" eventType="touchUpInside" id="6pp-Hp-Btp"/>
                                     <segue destination="8BZ-Hs-UfP" kind="push" id="Bx9-it-OQX"/>
                                 </connections>
                             </button>
