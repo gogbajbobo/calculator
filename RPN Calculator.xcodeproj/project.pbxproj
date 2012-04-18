@@ -17,6 +17,7 @@
 		2C05A47015179BED002E706C /* CalculatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A46F15179BED002E706C /* CalculatorViewController.m */; };
 		2C05A4781517AFEE002E706C /* CalculatorBrain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A4771517AFEE002E706C /* CalculatorBrain.m */; };
 		2C97B671153DB3F800C61941 /* GraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97B670153DB3F800C61941 /* GraphViewController.m */; };
+		2C97B675153ED0D500C61941 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97B674153ED0D500C61941 /* GraphView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,8 @@
 		2C05A4771517AFEE002E706C /* CalculatorBrain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculatorBrain.m; sourceTree = "<group>"; };
 		2C97B66F153DB3F700C61941 /* GraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphViewController.h; sourceTree = "<group>"; };
 		2C97B670153DB3F800C61941 /* GraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphViewController.m; sourceTree = "<group>"; };
+		2C97B673153ED0D500C61941 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
+		2C97B674153ED0D500C61941 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +90,8 @@
 				2C05A46915179BED002E706C /* CalculatorAppDelegate.m */,
 				2C05A46B15179BED002E706C /* MainStoryboard.storyboard */,
 				2C97B66F153DB3F700C61941 /* GraphViewController.h */,
+				2C97B673153ED0D500C61941 /* GraphView.h */,
+				2C97B674153ED0D500C61941 /* GraphView.m */,
 				2C97B670153DB3F800C61941 /* GraphViewController.m */,
 				2C05A4761517AFEE002E706C /* CalculatorBrain.h */,
 				2C05A4771517AFEE002E706C /* CalculatorBrain.m */,
@@ -177,6 +182,7 @@
 				2C05A47015179BED002E706C /* CalculatorViewController.m in Sources */,
 				2C05A4781517AFEE002E706C /* CalculatorBrain.m in Sources */,
 				2C97B671153DB3F800C61941 /* GraphViewController.m in Sources */,
+				2C97B675153ED0D500C61941 /* GraphView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
