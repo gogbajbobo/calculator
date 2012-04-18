@@ -402,7 +402,7 @@
                                 </state>
                                 <connections>
                                     <action selector="graph:" destination="2" eventType="touchUpInside" id="6pp-Hp-Btp"/>
-                                    <segue destination="8BZ-Hs-UfP" kind="push" id="Bx9-it-OQX"/>
+                                    <segue destination="8BZ-Hs-UfP" kind="push" identifier="showGraph" id="ODn-uW-cda"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -451,18 +451,6 @@
             <point key="canvasLocation" x="-948" y="439"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="CalculatorViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CalculatorViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="display" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="log" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="GraphViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

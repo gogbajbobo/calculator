@@ -8,11 +8,13 @@
 
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
+#import "GraphViewController.h"
 
 @interface CalculatorViewController ()
 @property (nonatomic) BOOL userIsInTheMiddleOfTheEnteringANumber;
 @property (nonatomic) BOOL userIsEnteringANumber;
 @property (nonatomic, strong) CalculatorBrain *brain;
+@property (nonatomic, weak) IBOutlet GraphViewController *graph;
 @end
 
 @implementation CalculatorViewController
@@ -21,6 +23,7 @@
 @synthesize display = _display;
 @synthesize log = _log;
 @synthesize brain = _brain;
+@synthesize graph = _graph;
 //@synthesize varsDisplay = _varsDisplay;
 @synthesize variableValues = _variableValues;
 
@@ -194,18 +197,22 @@
         [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithDouble:i], nil]]];
         [values addObject:[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]]];
         [keys addObject:[NSString stringWithFormat:@"%f",i]];
-        NSLog(@"i%f",i);
     }
-    NSLog(@"k%@v%@",keys,values);
     NSLog(@"1%@",[NSDictionary dictionaryWithObjects:values forKeys:keys]);
     return [NSDictionary dictionaryWithObjects:values forKeys:keys];
 }
 
 - (IBAction)graph:(UIButton *)sender {
-    NSDictionary *temp = [NSDictionary dictionaryWithDictionary:[self resultForGraphFrom:0 until:1.5 withStep:0.5]];
-    NSLog(@"2%@",temp);
+//    self.graph.XYvalues = [NSDictionary dictionaryWithDictionary:[self resultForGraphFrom:0 until:1.5 withStep:0.5]];
+//    [self performSegueWithIdentifier:@"showGraph" sender:self];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showGraph"]) {
+        [segue.destinationViewController setXYvalues:[NSDictionary dictionaryWithDictionary:[self resultForGraphFrom:0 until:1.5 withStep:0.5]]];
+    }
+}
 
 
 

@@ -14,9 +14,13 @@
 
 @implementation GraphViewController
 
+@synthesize XYvalues = _XYvalues;
 
-
-
+- (void)setXYvalues:(NSDictionary *)XYvalues
+{
+    _XYvalues = XYvalues;
+    NSLog(@"Graph%@",self.XYvalues);
+}
 
 
 
@@ -41,6 +45,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"%@",@"GraphViewController did load");
+    self.XYvalues = _XYvalues;
 	// Do any additional setup after loading the view.
 }
 

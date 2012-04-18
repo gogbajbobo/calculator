@@ -10,4 +10,5 @@
 
 @interface GraphViewController : UIViewController
 
+@property (nonatomic,weak) IBOutlet NSDictionary *XYvalues;
 @end
