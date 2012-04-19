@@ -198,6 +198,10 @@
         [values addObject:[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]]];
         [keys addObject:[NSString stringWithFormat:@"%f",i]];
     }
+
+    [self initializeVariables];
+    [self.brain performOperation:@"Result"];
+
     return [NSDictionary dictionaryWithObjects:values forKeys:keys];
 }
 
