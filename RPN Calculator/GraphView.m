@@ -15,7 +15,7 @@
 {
     if (XYvalues != _XYvalues) {
         _XYvalues = XYvalues;
-        NSLog(@"XYvalues inside GraphView %@",self.XYvalues);
+        NSLog(@"XYvalues inside GraphView %@",_XYvalues);
         [self setNeedsDisplay];
     }
 }
@@ -57,7 +57,6 @@
         currPoint.x = [[[self.XYvalues allKeys] objectAtIndex:i] floatValue];
         currPoint.y = [[[self.XYvalues allValues] objectAtIndex:i] floatValue];
         CGContextAddLineToPoint(context, currPoint.x, currPoint.y);
-        NSLog(@"currPoint%@",currPoint);
     }
     CGContextStrokePath(context);
     UIGraphicsPopContext();
