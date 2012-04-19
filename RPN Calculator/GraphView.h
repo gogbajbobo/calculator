@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface GraphView : UIView
+@property (nonatomic, weak) IBOutlet NSDictionary *XYvalues;
 
 @end

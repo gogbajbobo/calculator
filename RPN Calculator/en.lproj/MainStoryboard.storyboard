@@ -435,6 +435,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Graph" id="AUY-to-P4M"/>
+                    <connections>
+                        <outlet property="graphView" destination="84r-LK-gDa" id="ook-xh-MND"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="-91" y="439"/>

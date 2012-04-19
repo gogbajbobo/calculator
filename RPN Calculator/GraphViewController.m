@@ -7,19 +7,25 @@
 //
 
 #import "GraphViewController.h"
+#import "GraphView.h"
 
 @interface GraphViewController ()
+@property (nonatomic, weak) IBOutlet GraphView *graphView;
 
 @end
 
 @implementation GraphViewController
 
 @synthesize XYvalues = _XYvalues;
+@synthesize graphView = _graphView;
 
 - (void)setXYvalues:(NSDictionary *)XYvalues
 {
-    _XYvalues = XYvalues;
-    NSLog(@"Graph%@",self.XYvalues);
+    if (XYvalues != _XYvalues) {
+        _XYvalues = XYvalues;
+        NSLog(@"Graph%@",self.XYvalues);
+        [self.graphView setXYvalues:XYvalues];
+    }
 }
 
 
@@ -45,8 +51,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"%@",@"GraphViewController did load");
-    self.XYvalues = _XYvalues;
+    [self.graphView setXYvalues:self.XYvalues];
 	// Do any additional setup after loading the view.
 }
 

@@ -9,6 +9,16 @@
 #import "GraphView.h"
 
 @implementation GraphView
+@synthesize XYvalues = _XYvalues;
+
+- (void)setXYvalues:(NSDictionary *)XYvalues
+{
+    if (XYvalues != _XYvalues) {
+        _XYvalues = XYvalues;
+        NSLog(@"View inside %@",self.XYvalues);
+        [self setNeedsDisplay];
+    }
+}
 
 - (void)setup
 {
