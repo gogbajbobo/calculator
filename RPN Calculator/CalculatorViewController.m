@@ -198,7 +198,6 @@
         [values addObject:[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]]];
         [keys addObject:[NSString stringWithFormat:@"%f",i]];
     }
-    NSLog(@"1%@",[NSDictionary dictionaryWithObjects:values forKeys:keys]);
     return [NSDictionary dictionaryWithObjects:values forKeys:keys];
 }
 

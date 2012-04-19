@@ -62,10 +62,8 @@
 - (double)performOperation:(NSString *)operation
 {
     if ([operation isEqualToString:@"Undo"]) {
-        NSLog(@"Undo pressed");
         if ([self.programStack lastObject]) {
             [self.programStack removeLastObject];
-            NSLog(@"Last object YES");
         }
     } else if ([operation isEqualToString:@"Result"]) {
         
@@ -188,9 +186,7 @@
     double result = 0;
     
     id topOfStack = [stack lastObject];
-    NSLog(@"popOperandOffStack");
     if (topOfStack) {
-        NSLog(@"topOfStack YES");
         [stack removeLastObject];
 
         if ([topOfStack isKindOfClass:[NSNumber class]]) {
@@ -234,7 +230,6 @@
 + (NSMutableArray *)replaceVariableWithValuesIn:(NSMutableArray *)stack
                         usingVariableDictionary:(NSDictionary *)variableValues
 {
-    NSLog(@"replaceVWV");
     NSMutableArray *result = stack;
     if (result.count>0) {
         NSMutableArray *keysArray = [NSMutableArray arrayWithArray:variableValues.allKeys];
@@ -255,7 +250,6 @@
 + (double)runProgram:(id)program
  usingVariableValues:(NSDictionary *)variableValues
 {
-    NSLog(@"runProgram usingVV");
     NSMutableArray *stack;
     if ([program isKindOfClass:[NSArray class]]) {
         stack = [program mutableCopy];

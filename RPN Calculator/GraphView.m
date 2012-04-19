@@ -15,7 +15,7 @@
 {
     if (XYvalues != _XYvalues) {
         _XYvalues = XYvalues;
-        NSLog(@"View inside %@",self.XYvalues);
+        NSLog(@"XYvalues inside GraphView %@",self.XYvalues);
         [self setNeedsDisplay];
     }
 }
@@ -46,15 +46,19 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGPoint currPoint;
-    currPoint.x = 10;
-    currPoint.y = 20;
     
     CGContextSetLineWidth(context, 1.0);
     [[UIColor blueColor] setStroke];
     UIGraphicsPushContext(context);
     CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 0, 0);
-    CGContextAddLineToPoint(context, currPoint.x, currPoint.y);
+    CGContextMoveToPoint(context, currPoint.x, currPoint.y);
+    NSLog(@"self.XYvalues%@",self.XYvalues);
+    for (int i = 0; i < [self.XYvalues allKeys].count; i++) {
+        currPoint.x = [[[self.XYvalues allKeys] objectAtIndex:i] floatValue];
+        currPoint.y = [[[self.XYvalues allValues] objectAtIndex:i] floatValue];
+        CGContextAddLineToPoint(context, currPoint.x, currPoint.y);
+        NSLog(@"currPoint%@",currPoint);
+    }
     CGContextStrokePath(context);
     UIGraphicsPopContext();
 

@@ -23,7 +23,6 @@
 {
     if (XYvalues != _XYvalues) {
         _XYvalues = XYvalues;
-        NSLog(@"Graph%@",self.XYvalues);
         [self.graphView setXYvalues:XYvalues];
     }
 }
