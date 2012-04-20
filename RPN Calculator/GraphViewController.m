@@ -7,9 +7,8 @@
 //
 
 #import "GraphViewController.h"
-#import "GraphView.h"
 
-@interface GraphViewController ()
+@interface GraphViewController () <GraphViewDataSource>
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
 
 @end
@@ -17,17 +16,24 @@
 @implementation GraphViewController
 
 @synthesize XYvalues = _XYvalues;
+@synthesize dataSourceForGraph = _dataSourceForGraph;
 @synthesize graphView = _graphView;
 
-- (void)setXYvalues:(NSDictionary *)XYvalues
+- (void)setGraphView:(GraphView *)graphView
 {
-    if (XYvalues != _XYvalues) {
-        _XYvalues = XYvalues;
-        [self.graphView setXYvalues:XYvalues];
-    }
+    _graphView = graphView;
+    self.graphView.dataSource = self;
 }
 
+- (NSArray *)xValues
+{
+    return [self.dataSourceForGraph xValues];
+}
 
+- (NSArray *)yValues
+{
+    return [self.dataSourceForGraph yValues];    
+}
 
 
 
@@ -50,7 +56,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.graphView setXYvalues:self.XYvalues];
 	// Do any additional setup after loading the view.
 }
 

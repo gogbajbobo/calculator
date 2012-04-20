@@ -9,16 +9,8 @@
 #import "GraphView.h"
 
 @implementation GraphView
-@synthesize XYvalues = _XYvalues;
+@synthesize dataSource = _dataSource;
 
-- (void)setXYvalues:(NSDictionary *)XYvalues
-{
-    if (XYvalues != _XYvalues) {
-        _XYvalues = XYvalues;
-        NSLog(@"XYvalues inside GraphView %@",_XYvalues);
-        [self setNeedsDisplay];
-    }
-}
 
 - (void)setup
 {
@@ -43,6 +35,10 @@
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
+    CGPoint midPoint;
+    midPoint.x = self.bounds.origin.x + self.bounds.size.width/2;
+    midPoint.y = self.bounds.origin.y + self.bounds.size.height/2;
+
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGPoint currPoint;
@@ -52,15 +48,30 @@
     UIGraphicsPushContext(context);
     CGContextBeginPath(context);
     CGContextMoveToPoint(context, currPoint.x, currPoint.y);
-    NSLog(@"self.XYvalues%@",self.XYvalues);
-    for (int i = 0; i < [self.XYvalues allKeys].count; i++) {
-        currPoint.x = [[[self.XYvalues allKeys] objectAtIndex:i] floatValue];
-        currPoint.y = [[[self.XYvalues allValues] objectAtIndex:i] floatValue];
+//    CGContextAddLineToPoint(context, 10, 10);
+//    CGContextAddLineToPoint(context, 10, 50);
+//    CGContextAddLineToPoint(context, 50, 50);
+//    CGContextAddLineToPoint(context, 50, 100);
+//    CGContextAddLineToPoint(context, 100, 100);
+//    CGContextAddLineToPoint(context, 100, 200);
+//    CGContextAddLineToPoint(context, 200, 200);
+//    CGContextAddLineToPoint(context, self.bounds.size.width, self.bounds.size.height);
+    NSLog(@"%f",self.bounds.size.width);
+    NSLog(@"%f",self.bounds.size.height);
+    CGFloat maxValue;
+    CGFloat maxKey;
+    NSLog(@"Xvalues %@", [self.dataSource xValues]);
+    NSLog(@"Yvalues %@", [self.dataSource yValues]);
+    for (int i = 0; i < [self.dataSource xValues].count; i++) {
+        currPoint.x = [[[self.dataSource xValues] objectAtIndex:i] floatValue];
+        currPoint.y = [[[self.dataSource yValues] objectAtIndex:i] floatValue];
+        if (currPoint.x > maxKey) maxKey = currPoint.x;
+        if (currPoint.y > maxValue) maxValue = currPoint.y;
         CGContextAddLineToPoint(context, currPoint.x, currPoint.y);
     }
+    CGContextScaleCTM(context,1,1);
     CGContextStrokePath(context);
     UIGraphicsPopContext();
-
 }
 
 

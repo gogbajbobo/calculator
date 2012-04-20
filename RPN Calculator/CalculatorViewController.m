@@ -9,8 +9,9 @@
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
 #import "GraphViewController.h"
+#import "GraphView.h"
 
-@interface CalculatorViewController ()
+@interface CalculatorViewController () <GraphViewDataSource>
 @property (nonatomic) BOOL userIsInTheMiddleOfTheEnteringANumber;
 @property (nonatomic) BOOL userIsEnteringANumber;
 @property (nonatomic, strong) CalculatorBrain *brain;
@@ -201,22 +202,28 @@
 
     [self initializeVariables];
     [self.brain performOperation:@"Result"];
-
     return [NSDictionary dictionaryWithObjects:values forKeys:keys];
 }
 
 - (IBAction)graph:(UIButton *)sender {
-//    self.graph.XYvalues = [NSDictionary dictionaryWithDictionary:[self resultForGraphFrom:0 until:1.5 withStep:0.5]];
-//    [self performSegueWithIdentifier:@"showGraph" sender:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"showGraph"]) {
-        [segue.destinationViewController setXYvalues:[NSDictionary dictionaryWithDictionary:[self resultForGraphFrom:0 until:1.5 withStep:0.5]]];
+        [segue.destinationViewController setDataSourceForGraph:self];
     }
 }
 
+- (NSArray *)xValues
+{
+    return [[NSDictionary dictionaryWithDictionary:[self resultForGraphFrom:0 until:20 withStep:1]] allKeys];
+}
+
+- (NSArray *)yValues
+{
+    return [[NSDictionary dictionaryWithDictionary:[self resultForGraphFrom:0 until:20 withStep:1]] allValues];
+}
 
 
 
@@ -230,6 +237,7 @@
 
 - (void)viewDidLoad {
     [self initializeVariables];
+    NSLog(@"I'm here CVC");
 }
 
 @end

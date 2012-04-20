@@ -8,7 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol GraphViewDataSource
+
+- (NSArray *)xValues;
+- (NSArray *)yValues;
+
+@end
+
 @interface GraphView : UIView
-@property (nonatomic, strong) IBOutlet NSDictionary *XYvalues;
+
+@property (nonatomic,weak) IBOutlet id <GraphViewDataSource> dataSource;
 
 @end
