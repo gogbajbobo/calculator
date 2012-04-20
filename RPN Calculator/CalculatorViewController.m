@@ -188,22 +188,6 @@
     }
 }
 
-- (NSDictionary *)resultForGraphFrom:(double)xstart
-                          until:(double)xend
-                       withStep:(double)xstep
-{
-    NSMutableArray *keys = [NSMutableArray array];
-    NSMutableArray *values = [NSMutableArray array];
-    for (double i = xstart; i <= xend; i += xstep) {
-        [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithDouble:i], nil]]];
-        [values addObject:[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]]];
-        [keys addObject:[NSString stringWithFormat:@"%f",i]];
-    }
-
-    [self initializeVariables];
-    [self.brain performOperation:@"Result"];
-    return [NSDictionary dictionaryWithObjects:values forKeys:keys];
-}
 
 - (IBAction)graph:(UIButton *)sender {
 }
@@ -215,14 +199,35 @@
     }
 }
 
+- (NSArray *)xArrayFrom:(double)xstart
+                  until:(double)xend
+               withStep:(double)xstep
+{
+    NSMutableArray *xArray = [NSMutableArray array];
+    for (float i = xstart; i <= xend; i += xstep) {
+        [xArray addObject:[NSNumber numberWithFloat:i]];
+    }
+    return xArray;
+}
+
+- (NSArray *)yArrayFor:(NSArray *)xArray
+{
+    NSMutableArray *yArray = [NSMutableArray array];
+    for (int i = 0; i <= xArray.count; i++) {
+        [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithDouble:i], nil]]];
+        [yArray addObject:[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]]];
+    }
+    return yArray;
+}
+
 - (NSArray *)xValues
 {
-    return [[NSDictionary dictionaryWithDictionary:[self resultForGraphFrom:0 until:20 withStep:1]] allKeys];
+    return [self xArrayFrom:0 until:320 withStep:10];
 }
 
 - (NSArray *)yValues
 {
-    return [[NSDictionary dictionaryWithDictionary:[self resultForGraphFrom:0 until:20 withStep:1]] allValues];
+    return [self yArrayFor:self.xValues];
 }
 
 
