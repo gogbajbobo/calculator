@@ -166,10 +166,14 @@
 //                          @"z",
                           nil];
     NSString *displayText = @"";
-    for (int i=0; i<keysArray.count; i++) {
-        displayText = [displayText stringByAppendingString:[NSString stringWithFormat:@"%@ = %@  ",[keysArray objectAtIndex:i],[[valuesArray objectAtIndex:i] stringValue]]];
+    if ([valuesArray isKindOfClass:[NSArray class]]) {
+        for (int i=0; i<keysArray.count; i++) {
+            displayText = [displayText stringByAppendingString:[NSString stringWithFormat:@"%@ = %@  ",[keysArray objectAtIndex:i],[[valuesArray objectAtIndex:i] stringValue]]];
+        }
+    } else {
+        valuesArray = [NSArray array];
     }
-//    self.varsDisplay.text = displayText;
+        //    self.varsDisplay.text = displayText;
 
     return [NSDictionary dictionaryWithObjects:valuesArray 
                                        forKeys:keysArray];
@@ -213,8 +217,8 @@
 - (NSArray *)yArrayFor:(NSArray *)xArray
 {
     NSMutableArray *yArray = [NSMutableArray array];
-    for (int i = 0; i <= xArray.count; i++) {
-        [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithDouble:i], nil]]];
+    for (int i = 0; i <= xArray.count-1; i++) {
+        [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObject:[xArray objectAtIndex:i]]]];
         [yArray addObject:[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]]];
     }
     return yArray;
@@ -222,7 +226,7 @@
 
 - (NSArray *)xValues
 {
-    return [self xArrayFrom:0 until:320 withStep:10];
+    return [self xArrayFrom:0 until:320 withStep:1];
 }
 
 - (NSArray *)yValues

@@ -48,14 +48,6 @@
     UIGraphicsPushContext(context);
     CGContextBeginPath(context);
     CGContextMoveToPoint(context, currPoint.x, currPoint.y);
-//    CGContextAddLineToPoint(context, 10, 10);
-//    CGContextAddLineToPoint(context, 10, 50);
-//    CGContextAddLineToPoint(context, 50, 50);
-//    CGContextAddLineToPoint(context, 50, 100);
-//    CGContextAddLineToPoint(context, 100, 100);
-//    CGContextAddLineToPoint(context, 100, 200);
-//    CGContextAddLineToPoint(context, 200, 200);
-//    CGContextAddLineToPoint(context, self.bounds.size.width, self.bounds.size.height);
     NSLog(@"%f",self.bounds.size.width);
     NSLog(@"%f",self.bounds.size.height);
     CGFloat maxValue;
