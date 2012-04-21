@@ -203,7 +203,7 @@
     }
 }
 
-- (NSArray *)xArrayFrom:(double)xstart
+- (NSArray *)createXArrayFrom:(double)xstart
                   until:(double)xend
                withStep:(double)xstep
 {
@@ -214,7 +214,7 @@
     return xArray;
 }
 
-- (NSArray *)yArrayFor:(NSArray *)xArray
+- (NSArray *)createYArrayFor:(NSArray *)xArray
 {
     NSMutableArray *yArray = [NSMutableArray array];
     for (int i = 0; i <= xArray.count-1; i++) {
@@ -226,12 +226,12 @@
 
 - (NSArray *)xValues
 {
-    return [self xArrayFrom:0 until:320 withStep:1];
+    return [self createXArrayFrom:0 until:320 withStep:1];
 }
 
 - (NSArray *)yValues
 {
-    return [self yArrayFor:self.xValues];
+    return [self createYArrayFor:self.xValues];
 }
 
 
