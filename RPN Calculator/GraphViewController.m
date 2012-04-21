@@ -25,11 +25,6 @@
     self.graphView.dataSource = self;
 }
 
-- (NSArray *)xValues
-{
-    return [self.dataSourceForGraph xValues];
-}
-
 - (NSArray *)yValues
 {
     return [self.dataSourceForGraph yValues];    

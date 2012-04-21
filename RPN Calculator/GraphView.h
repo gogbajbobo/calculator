@@ -10,7 +10,6 @@
 
 @protocol GraphViewDataSource
 
-- (NSArray *)xValues;
 - (NSArray *)yValues;
 
 @end

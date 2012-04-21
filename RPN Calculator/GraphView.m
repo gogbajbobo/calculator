@@ -51,16 +51,17 @@
     NSLog(@"%f",self.bounds.size.width);
     NSLog(@"%f",self.bounds.size.height);
     CGFloat maxValue;
-    CGFloat maxKey;
-    NSLog(@"Xvalues %@", [self.dataSource xValues]);
-    NSLog(@"Yvalues %@", [self.dataSource yValues]);
-    for (int i = 0; i < [self.dataSource xValues].count; i++) {
-        currPoint.x = [[[self.dataSource xValues] objectAtIndex:i] floatValue];
-        currPoint.y = [[[self.dataSource yValues] objectAtIndex:i] floatValue];
-        if (currPoint.x > maxKey) maxKey = currPoint.x;
+    CGFloat minValue;
+    NSArray *yValues = [self.dataSource yValues];
+    for (int i = 0; i < 320; i++) {
+        currPoint.x = i;
+        currPoint.y = [[yValues objectAtIndex:i] floatValue];
         if (currPoint.y > maxValue) maxValue = currPoint.y;
+        if (currPoint.y < minValue) minValue = currPoint.y;
         CGContextAddLineToPoint(context, currPoint.x, currPoint.y);
     }
+//    CGContextAddLineToPoint(context, 0, 100);
+//    CGContextAddLineToPoint(context, 0, 400);
     CGContextScaleCTM(context,1,1);
     CGContextStrokePath(context);
     UIGraphicsPopContext();

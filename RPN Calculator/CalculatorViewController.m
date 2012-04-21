@@ -214,24 +214,15 @@
     return xArray;
 }
 
-- (NSArray *)createYArrayFor:(NSArray *)xArray
+- (NSArray *)yValues
 {
+    float scale = 1;
     NSMutableArray *yArray = [NSMutableArray array];
-    for (int i = 0; i <= xArray.count-1; i++) {
-        [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObject:[xArray objectAtIndex:i]]]];
+    for (int i = 0; i <= 320; i++) {
+        [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithDouble:(i*scale)], nil]]];
         [yArray addObject:[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]]];
     }
     return yArray;
-}
-
-- (NSArray *)xValues
-{
-    return [self createXArrayFrom:0 until:320 withStep:1];
-}
-
-- (NSArray *)yValues
-{
-    return [self createYArrayFor:self.xValues];
 }
 
 
