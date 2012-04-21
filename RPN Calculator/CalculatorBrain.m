@@ -116,11 +116,12 @@
                 result = [NSString stringWithFormat:@"%@(%@)", topOfStack, [self buildDescriptionOfProgram:stack callingByOperationWithPriority:1]];
             } else if ([[NSArray arrayWithObjects: @"+", @"*", @"-", @"/", nil] containsObject:topOfStack]) {
                 int p = 1;
-                if ([topOfStack isEqual:@"*"]||[topOfStack isEqual:@"/"]) p = 2;
+                if ([topOfStack isEqual:@"*"]) p = 2;
+                if ([topOfStack isEqual:@"/"]) p = 3;
                 id secondArgument = [self buildDescriptionOfProgram:stack callingByOperationWithPriority:p];
                 id firstArgument = [self buildDescriptionOfProgram:stack callingByOperationWithPriority:p];
                 NSString *stringFormat;
-                if (priority>p) {
+                if (priority>p || priority == 3) {
                     stringFormat = @"(%@)";
                 } else {
                     stringFormat = @"%@";
