@@ -10,7 +10,7 @@
 
 @protocol GraphViewDataSource
 
-- (NSArray *)yValues;
+- (NSArray *)yValues:(int)xMaxValue;
 
 @end
 

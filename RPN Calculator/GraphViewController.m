@@ -25,9 +25,9 @@
     self.graphView.dataSource = self;
 }
 
-- (NSArray *)yValues
+- (NSArray *)yValues:(int)xMaxValue
 {
-    return [self.dataSourceForGraph yValues];    
+    return [self.dataSourceForGraph yValues:xMaxValue];    
 }
 
 
@@ -62,7 +62,8 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+//    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
 
 @end

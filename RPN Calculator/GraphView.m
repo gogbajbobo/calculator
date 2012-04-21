@@ -48,12 +48,12 @@
     UIGraphicsPushContext(context);
     CGContextBeginPath(context);
     CGContextMoveToPoint(context, currPoint.x, currPoint.y);
-    NSLog(@"%f",self.bounds.size.width);
-    NSLog(@"%f",self.bounds.size.height);
+    NSLog(@"w%f",self.bounds.size.width);
+    NSLog(@"h%f",self.bounds.size.height);
     CGFloat maxValue;
     CGFloat minValue;
-    NSArray *yValues = [self.dataSource yValues];
-    for (int i = 0; i < 320; i++) {
+    NSArray *yValues = [self.dataSource yValues:self.bounds.size.width];
+    for (int i = 0; i < self.bounds.size.width; i++) {
         currPoint.x = i;
         currPoint.y = [[yValues objectAtIndex:i] floatValue];
         if (currPoint.y > maxValue) maxValue = currPoint.y;

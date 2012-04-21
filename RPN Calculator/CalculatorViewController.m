@@ -214,11 +214,11 @@
     return xArray;
 }
 
-- (NSArray *)yValues
+- (NSArray *)yValues:(int)xMaxValue
 {
     float scale = 1;
     NSMutableArray *yArray = [NSMutableArray array];
-    for (int i = 0; i <= 320; i++) {
+    for (int i = 0; i <= xMaxValue; i++) {
         [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithDouble:(i*scale)], nil]]];
         [yArray addObject:[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]]];
     }
