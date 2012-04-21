@@ -7,10 +7,12 @@
 //
 
 #import "GraphViewController.h"
+#import "AxisView.h"
 
 @interface GraphViewController () <GraphViewDataSource, DescriptionViewDataSource>
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
 @property (nonatomic, weak) IBOutlet DescriptionView *descriptionView;
+@property (nonatomic, weak) IBOutlet AxisView *axisView;
 
 @end
 
@@ -21,6 +23,7 @@
 @synthesize dataSourceForDescription = _dataSourceForDescription;
 @synthesize graphView = _graphView;
 @synthesize descriptionView = _descriptionView;
+@synthesize axisView = _axisView;
 
 - (void)setGraphView:(GraphView *)graphView
 {
