@@ -42,24 +42,29 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGPoint currPoint;
-    
-    CGContextSetLineWidth(context, 1.0);
-    [[UIColor blueColor] setStroke];
-    CGContextTranslateCTM(context, 0.0, self.bounds.size.height);
-    CGContextScaleCTM(context, 1.0, -1.0);
-    UIGraphicsPushContext(context);
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, currPoint.x, currPoint.y);
-    NSLog(@"w%f",self.bounds.size.width);
-    NSLog(@"h%f",self.bounds.size.height);
-    CGFloat maxValue;
-    CGFloat minValue;
+    CGFloat maxValue = 1.0;
+    CGFloat minValue = -1.0;
+    CGFloat scale;
     NSArray *yValues = [self.dataSource yValues:self.bounds.size.width];
     for (int i = 0; i < self.bounds.size.width; i++) {
-        currPoint.x = i;
         currPoint.y = [[yValues objectAtIndex:i] floatValue];
         if (currPoint.y > maxValue) maxValue = currPoint.y;
         if (currPoint.y < minValue) minValue = currPoint.y;
+    }
+    scale = self.bounds.size.height/(maxValue - minValue);
+    NSLog(@"max%fmin%fscale%f",maxValue,minValue,scale);
+    
+    CGContextSetLineWidth(context, 1.0);
+    [[UIColor blueColor] setStroke];
+    CGContextTranslateCTM(context, 0.0, self.bounds.size.height+(minValue * scale));
+    CGContextScaleCTM(context, 1.0, -1.0);
+
+    UIGraphicsPushContext(context);
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, currPoint.x, currPoint.y);
+    for (int i = 0; i < self.bounds.size.width; i++) {
+        currPoint.x = i;
+        currPoint.y = [[yValues objectAtIndex:i] floatValue] * scale;        
         CGContextAddLineToPoint(context, currPoint.x, currPoint.y);
     }
     CGContextStrokePath(context);
