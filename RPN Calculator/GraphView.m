@@ -45,6 +45,8 @@
     
     CGContextSetLineWidth(context, 1.0);
     [[UIColor blueColor] setStroke];
+    CGContextTranslateCTM(context, 0.0, self.bounds.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
     UIGraphicsPushContext(context);
     CGContextBeginPath(context);
     CGContextMoveToPoint(context, currPoint.x, currPoint.y);
@@ -60,9 +62,6 @@
         if (currPoint.y < minValue) minValue = currPoint.y;
         CGContextAddLineToPoint(context, currPoint.x, currPoint.y);
     }
-//    CGContextAddLineToPoint(context, 0, 100);
-//    CGContextAddLineToPoint(context, 0, 400);
-    CGContextScaleCTM(context,1,1);
     CGContextStrokePath(context);
     UIGraphicsPopContext();
 }
