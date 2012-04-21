@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "GraphView.h"
+#import "DescriptionView.h"
 
 @interface GraphViewController : UIViewController
 
 @property (nonatomic,weak) IBOutlet NSDictionary *XYvalues;
 @property (nonatomic,weak) IBOutlet id <GraphViewDataSource> dataSourceForGraph;
+@property (nonatomic,weak) IBOutlet id <DescriptionViewDataSource> dataSourceForDescription;
 
 @end

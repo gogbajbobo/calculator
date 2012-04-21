@@ -8,8 +8,9 @@
 
 #import "GraphViewController.h"
 
-@interface GraphViewController () <GraphViewDataSource>
+@interface GraphViewController () <GraphViewDataSource, DescriptionViewDataSource>
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
+@property (nonatomic, weak) IBOutlet DescriptionView *descriptionView;
 
 @end
 
@@ -17,7 +18,9 @@
 
 @synthesize XYvalues = _XYvalues;
 @synthesize dataSourceForGraph = _dataSourceForGraph;
+@synthesize dataSourceForDescription = _dataSourceForDescription;
 @synthesize graphView = _graphView;
+@synthesize descriptionView = _descriptionView;
 
 - (void)setGraphView:(GraphView *)graphView
 {
@@ -25,11 +28,22 @@
     self.graphView.dataSource = self;
 }
 
+- (void)setDescriptionView:(DescriptionView *)descriptionView
+{
+    _descriptionView = descriptionView;
+    self.descriptionView.descriptionDataSource = self;
+}
+
 - (NSArray *)yValues:(int)xMaxValue
 {
     return [self.dataSourceForGraph yValues:xMaxValue];    
 }
 
+- (NSString *)descriptionText
+{
+    NSLog(@"GVC%@",[self.dataSourceForDescription descriptionText]);
+    return [self.dataSourceForDescription descriptionText];
+}
 
 
 
