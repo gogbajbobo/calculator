@@ -15,5 +15,6 @@
 @property (nonatomic,weak) IBOutlet NSDictionary *XYvalues;
 @property (nonatomic,weak) IBOutlet id <GraphViewDataSource> dataSourceForGraph;
 //@property (nonatomic,weak) IBOutlet id <DescriptionViewDataSource> dataSourceForDescription;
+@property (weak, nonatomic) IBOutlet UILabel *description;
 
 @end

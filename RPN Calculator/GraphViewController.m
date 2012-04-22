@@ -17,6 +17,7 @@
 @end
 
 @implementation GraphViewController
+@synthesize description = _description;
 
 @synthesize XYvalues = _XYvalues;
 @synthesize dataSourceForGraph = _dataSourceForGraph;
@@ -25,10 +26,13 @@
 //@synthesize descriptionView = _descriptionView;
 //@synthesize axisView = _axisView;
 
+
 - (void)setGraphView:(GraphView *)graphView
 {
     _graphView = graphView;
     self.graphView.dataSource = self;
+    self.description.text = @"OK!";
+    self.description.backgroundColor = [UIColor whiteColor];
 }
 
 //- (void)setDescriptionView:(DescriptionView *)descriptionView
@@ -71,6 +75,7 @@
 
 - (void)viewDidUnload
 {
+    [self setDescription:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
