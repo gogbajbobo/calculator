@@ -7,24 +7,17 @@
 //
 
 #import "GraphViewController.h"
-//#import "AxisView.h"
 
 @interface GraphViewController () <GraphViewDataSource>
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
-//@property (nonatomic, weak) IBOutlet DescriptionView *descriptionView;
-//@property (nonatomic, weak) IBOutlet AxisView *axisView;
 
 @end
 
 @implementation GraphViewController
 @synthesize description = _description;
-
-@synthesize XYvalues = _XYvalues;
 @synthesize dataSourceForGraph = _dataSourceForGraph;
-//@synthesize dataSourceForDescription = _dataSourceForDescription;
+@synthesize XYvalues = _XYvalues;
 @synthesize graphView = _graphView;
-//@synthesize descriptionView = _descriptionView;
-//@synthesize axisView = _axisView;
 
 
 - (void)setGraphView:(GraphView *)graphView
@@ -35,22 +28,17 @@
     self.description.backgroundColor = [UIColor whiteColor];
 }
 
-//- (void)setDescriptionView:(DescriptionView *)descriptionView
-//{
-//    _descriptionView = descriptionView;
-//    self.descriptionView.descriptionDataSource = self;
-//}
-
 - (NSArray *)yValues:(int)xMaxValue
 {
-    return [self.dataSourceForGraph yValues:xMaxValue];    
+    float scale = 1;
+    NSMutableArray *yArray = [NSMutableArray array];
+    for (int i = 0; i <= xMaxValue; i++) {
+        [yArray addObject:[NSNumber numberWithDouble:[self.dataSourceForGraph yValueFor:i*scale]]];
+    }
+    return yArray;
 }
 
-//- (NSString *)descriptionText
-//{
-//    NSLog(@"GVC%@",[self.dataSourceForDescription descriptionText]);
-//    return [self.dataSourceForDescription descriptionText];
-//}
+
 
 
 

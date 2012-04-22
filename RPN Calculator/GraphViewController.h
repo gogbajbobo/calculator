@@ -8,13 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "GraphView.h"
-//#import "DescriptionView.h"
+
+@protocol DataTransmit <NSObject>
+
+- (float)yValueFor:(int)xValue;
+
+@end
+
 
 @interface GraphViewController : UIViewController
 
 @property (nonatomic,weak) IBOutlet NSDictionary *XYvalues;
-@property (nonatomic,weak) IBOutlet id <GraphViewDataSource> dataSourceForGraph;
-//@property (nonatomic,weak) IBOutlet id <DescriptionViewDataSource> dataSourceForDescription;
 @property (weak, nonatomic) IBOutlet UILabel *description;
+@property (weak, nonatomic) IBOutlet id <DataTransmit> dataSourceForGraph;
+
 
 @end

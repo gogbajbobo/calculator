@@ -9,10 +9,8 @@
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
 #import "GraphViewController.h"
-#import "GraphView.h"
-//#import "DescriptionView.h"
 
-@interface CalculatorViewController () <GraphViewDataSource>
+@interface CalculatorViewController () <DataTransmit>
 @property (nonatomic) BOOL userIsInTheMiddleOfTheEnteringANumber;
 @property (nonatomic) BOOL userIsEnteringANumber;
 @property (nonatomic, strong) CalculatorBrain *brain;
@@ -201,37 +199,20 @@
 {
     if ([segue.identifier isEqualToString:@"showGraph"]) {
         [segue.destinationViewController setDataSourceForGraph:self];
-//        [segue.destinationViewController setDataSourceForDescription:self];
     }
 }
 
-- (NSArray *)createXArrayFrom:(double)xstart
-                  until:(double)xend
-               withStep:(double)xstep
-{
-    NSMutableArray *xArray = [NSMutableArray array];
-    for (float i = xstart; i <= xend; i += xstep) {
-        [xArray addObject:[NSNumber numberWithFloat:i]];
-    }
-    return xArray;
-}
-
-- (NSArray *)yValues:(int)xMaxValue
-{
-    float scale = 1;
-    NSMutableArray *yArray = [NSMutableArray array];
-    for (int i = 0; i <= xMaxValue; i++) {
-        [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithDouble:(i*scale)], nil]]];
-        [yArray addObject:[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]]];
-    }
-    return yArray;
-}
 
 - (NSString *)descriptionText
 {
     return [self.brain showDescription];
 }
 
+- (float)yValueFor:(int)xValue
+{
+    [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithInt:(xValue)], nil]]];
+    return [[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]] floatValue];
+}
 
 
 - (void)viewDidUnload {
