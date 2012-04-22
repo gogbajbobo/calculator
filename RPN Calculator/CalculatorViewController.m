@@ -10,9 +10,9 @@
 #import "CalculatorBrain.h"
 #import "GraphViewController.h"
 #import "GraphView.h"
-#import "DescriptionView.h"
+//#import "DescriptionView.h"
 
-@interface CalculatorViewController () <GraphViewDataSource, DescriptionViewDataSource>
+@interface CalculatorViewController () <GraphViewDataSource>
 @property (nonatomic) BOOL userIsInTheMiddleOfTheEnteringANumber;
 @property (nonatomic) BOOL userIsEnteringANumber;
 @property (nonatomic, strong) CalculatorBrain *brain;
@@ -201,7 +201,7 @@
 {
     if ([segue.identifier isEqualToString:@"showGraph"]) {
         [segue.destinationViewController setDataSourceForGraph:self];
-        [segue.destinationViewController setDataSourceForDescription:self];
+//        [segue.destinationViewController setDataSourceForDescription:self];
     }
 }
 

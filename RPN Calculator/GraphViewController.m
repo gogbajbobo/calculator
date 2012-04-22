@@ -7,12 +7,12 @@
 //
 
 #import "GraphViewController.h"
-#import "AxisView.h"
+//#import "AxisView.h"
 
-@interface GraphViewController () <GraphViewDataSource, DescriptionViewDataSource>
+@interface GraphViewController () <GraphViewDataSource>
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
-@property (nonatomic, weak) IBOutlet DescriptionView *descriptionView;
-@property (nonatomic, weak) IBOutlet AxisView *axisView;
+//@property (nonatomic, weak) IBOutlet DescriptionView *descriptionView;
+//@property (nonatomic, weak) IBOutlet AxisView *axisView;
 
 @end
 
@@ -20,10 +20,10 @@
 
 @synthesize XYvalues = _XYvalues;
 @synthesize dataSourceForGraph = _dataSourceForGraph;
-@synthesize dataSourceForDescription = _dataSourceForDescription;
+//@synthesize dataSourceForDescription = _dataSourceForDescription;
 @synthesize graphView = _graphView;
-@synthesize descriptionView = _descriptionView;
-@synthesize axisView = _axisView;
+//@synthesize descriptionView = _descriptionView;
+//@synthesize axisView = _axisView;
 
 - (void)setGraphView:(GraphView *)graphView
 {
@@ -31,22 +31,22 @@
     self.graphView.dataSource = self;
 }
 
-- (void)setDescriptionView:(DescriptionView *)descriptionView
-{
-    _descriptionView = descriptionView;
-    self.descriptionView.descriptionDataSource = self;
-}
+//- (void)setDescriptionView:(DescriptionView *)descriptionView
+//{
+//    _descriptionView = descriptionView;
+//    self.descriptionView.descriptionDataSource = self;
+//}
 
 - (NSArray *)yValues:(int)xMaxValue
 {
     return [self.dataSourceForGraph yValues:xMaxValue];    
 }
 
-- (NSString *)descriptionText
-{
-    NSLog(@"GVC%@",[self.dataSourceForDescription descriptionText]);
-    return [self.dataSourceForDescription descriptionText];
-}
+//- (NSString *)descriptionText
+//{
+//    NSLog(@"GVC%@",[self.dataSourceForDescription descriptionText]);
+//    return [self.dataSourceForDescription descriptionText];
+//}
 
 
 
