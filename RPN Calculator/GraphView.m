@@ -83,7 +83,7 @@
         if ([tickValue isEqualToString:@"0"])tickValue = @"";
         textRect.size = [tickValue sizeWithFont:font];
         textRect.origin.x = i - textRect.size.width / 2;
-        textRect.origin.y = 20 - textRect.size.height / 2;
+        textRect.origin.y = - 20 - textRect.size.height / 2;
         [tickValue drawInRect:textRect withFont:font];
         textRect = CGRectApplyAffineTransform(textRect, textTransform);
         CGContextMoveToPoint(context, i+xStep/2, -minorTickLength/2);
@@ -91,9 +91,9 @@
     }
 
     CGFloat yStep = 50;
-    CGFloat yTicksStart = ceilf((self.verticalShift-self.bounds.size.height)/yStep)*yStep;
-    CGFloat yTicksEnd = floorf(self.verticalShift/yStep)*yStep;
-    NSLog(@" %f %f",yTicksEnd,yTicksStart);
+    CGFloat yTicksStart = ceilf(-self.verticalShift/yStep)*yStep;
+    CGFloat yTicksEnd = floorf(-(self.verticalShift-self.bounds.size.height)/yStep)*yStep;
+    NSLog(@" %f %f %f %f %f",yTicksStart,yTicksEnd,self.verticalShift,self.bounds.size.height,yStep);
     CGContextMoveToPoint(context, -minorTickLength/2, yTicksStart-yStep/2);
     CGContextAddLineToPoint(context, minorTickLength/2, yTicksStart-yStep/2);
     for (float i = yTicksStart; i <= yTicksEnd; i += yStep) {
@@ -101,7 +101,7 @@
         CGContextAddLineToPoint(context, majorTickLength/2, i);
         CGRect textRect;
         textRect = CGRectApplyAffineTransform(textRect, textTransform);
-        NSString *tickValue = [NSString stringWithString:[[NSNumber numberWithInt:rint(i)] stringValue]];
+        NSString *tickValue = [NSString stringWithString:[[NSNumber numberWithInt:rint(-i)] stringValue]];
         if ([tickValue isEqualToString:@"0"])tickValue = @"";
         textRect.size = [tickValue sizeWithFont:font];
         textRect.origin.x = 20 - textRect.size.width / 2;
@@ -129,7 +129,7 @@
     CGPoint currPoint;
     CGFloat maxValue = 0.0;
     CGFloat minValue = 0.0;
-    self.horizontalShift = 200;
+    self.horizontalShift = 300;
     NSArray *yValues = [self.dataSource yValuesForXFromZeroTo:self.bounds.size.width
                                                    withXScale:self.xScale
                                                     andXShift:self.horizontalShift];
@@ -144,17 +144,20 @@
     [[UIColor blueColor] setStroke];
     self.verticalShift = self.bounds.size.height+(minValue * self.yScale);
 //    NSLog(@"vS%fmV%fyS%fH%f",self.verticalShift,minValue,self.yScale,self.bounds.size.height);
-    self.verticalShift = 130;
+    self.verticalShift = 330;
     CGContextTranslateCTM(context, self.horizontalShift, self.verticalShift);
 //    CGContextScaleCTM(context, 1.0, -1.0);
 
     UIGraphicsPushContext(context);
     CGContextBeginPath(context);
-    CGContextMoveToPoint(context, currPoint.x, currPoint.y);
     for (int i = 0; i < self.bounds.size.width; i++) {
         currPoint.x = i-self.horizontalShift;
-        currPoint.y = [[yValues objectAtIndex:i] floatValue] * self.yScale;        
-        CGContextAddLineToPoint(context, currPoint.x, currPoint.y);
+        currPoint.y = [[yValues objectAtIndex:i] floatValue] * self.yScale;
+        if (i==0) {
+            CGContextMoveToPoint(context, currPoint.x, currPoint.y);
+        } else {
+            CGContextAddLineToPoint(context, currPoint.x, currPoint.y);
+        }
     }
     CGContextStrokePath(context);
 
