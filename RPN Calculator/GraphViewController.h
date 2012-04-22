@@ -12,6 +12,7 @@
 @protocol DataTransmit <NSObject>
 
 - (float)yValueFor:(int)xValue;
+- (NSString *)descriptionText;
 
 @end
 

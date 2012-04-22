@@ -215,6 +215,8 @@
 }
 
 
+
+
 - (void)viewDidUnload {
     [self setLog:nil];
 //    [self setVarsDisplay:nil];

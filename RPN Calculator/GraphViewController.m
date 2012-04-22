@@ -24,7 +24,7 @@
 {
     _graphView = graphView;
     self.graphView.dataSource = self;
-    self.description.text = @"OK!";
+    self.description.text = [self.dataSourceForGraph descriptionText];
     self.description.backgroundColor = [UIColor whiteColor];
 }
 
