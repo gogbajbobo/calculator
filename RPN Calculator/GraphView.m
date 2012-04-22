@@ -12,6 +12,8 @@
 @synthesize dataSource = _dataSource;
 @synthesize xScale = _xScale;
 @synthesize yScale = _yScale;
+@synthesize verticalShift = _verticalShift;
+@synthesize horizontalShift = _horizontalShift;
 
 - (CGFloat)xScale
 {
@@ -44,9 +46,17 @@
     return self;
 }
 
-- (void)drawAxisAtOriginPoint:(CGPoint *)originPoint
+- (void)drawAxisInContext:(CGContextRef)context
 {
-    
+    CGContextSetLineWidth(context, 2.0);
+    [[UIColor blackColor] setStroke];
+
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, 0, self.verticalShift);
+    CGContextAddLineToPoint(context, 0, self.verticalShift-self.bounds.size.height);
+    CGContextMoveToPoint(context, -self.horizontalShift, 0);
+    CGContextAddLineToPoint(context, self.bounds.size.width-self.horizontalShift, 0);
+    CGContextStrokePath(context);
 }
 
 
@@ -64,33 +74,37 @@
     CGPoint currPoint;
     CGFloat maxValue = 0.0;
     CGFloat minValue = 0.0;
+    self.horizontalShift = 200;
     NSArray *yValues = [self.dataSource yValuesForXFromZeroTo:self.bounds.size.width
-                                                   withXScale:self.xScale];
+                                                   withXScale:self.xScale
+                                                    andXShift:self.horizontalShift];
     for (int i = 0; i < self.bounds.size.width; i++) {
         currPoint.y = [[yValues objectAtIndex:i] floatValue];
         if (currPoint.y > maxValue) maxValue = currPoint.y;
         if (currPoint.y < minValue) minValue = currPoint.y;
     }
     self.yScale = self.bounds.size.height/(maxValue - minValue);
-    NSLog(@"height%f",self.bounds.size.height);
-    NSLog(@"max%fmin%fscale%f",maxValue,minValue,self.yScale);
     
     CGContextSetLineWidth(context, 1.0);
     [[UIColor blueColor] setStroke];
-    CGFloat verticalShift = self.bounds.size.height+(minValue * self.yScale);
-    NSLog(@"vS%f",verticalShift);
-    CGContextTranslateCTM(context, 0.0, verticalShift);
+    self.verticalShift = self.bounds.size.height+(minValue * self.yScale);
+//    NSLog(@"vS%fmV%fyS%fH%f",self.verticalShift,minValue,self.yScale,self.bounds.size.height);
+    self.verticalShift = 130;
+    CGContextTranslateCTM(context, self.horizontalShift, self.verticalShift);
     CGContextScaleCTM(context, 1.0, -1.0);
 
     UIGraphicsPushContext(context);
     CGContextBeginPath(context);
     CGContextMoveToPoint(context, currPoint.x, currPoint.y);
     for (int i = 0; i < self.bounds.size.width; i++) {
-        currPoint.x = i;
+        currPoint.x = i-self.horizontalShift;
         currPoint.y = [[yValues objectAtIndex:i] floatValue] * self.yScale;        
         CGContextAddLineToPoint(context, currPoint.x, currPoint.y);
     }
     CGContextStrokePath(context);
+
+    [self drawAxisInContext:context];
+
     UIGraphicsPopContext();
 }
 

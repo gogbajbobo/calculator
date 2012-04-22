@@ -11,7 +11,8 @@
 @protocol GraphViewDataSource
 
 - (NSArray *)yValuesForXFromZeroTo:(int)xMaxValue
-                        withXScale:(CGFloat)xScale;
+                        withXScale:(CGFloat)xScale
+                         andXShift:(CGFloat)xShift;
 
 @end
 
@@ -20,5 +21,7 @@
 @property (nonatomic,weak) IBOutlet id <GraphViewDataSource> dataSource;
 @property (nonatomic) CGFloat yScale;
 @property (nonatomic) CGFloat xScale;
+@property (nonatomic) CGFloat verticalShift;
+@property (nonatomic) CGFloat horizontalShift;
 
 @end

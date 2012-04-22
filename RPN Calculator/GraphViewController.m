@@ -30,10 +30,11 @@
 
 - (NSArray *)yValuesForXFromZeroTo:(int)xMaxValue
                         withXScale:(CGFloat)xScale
+                         andXShift:(CGFloat)xShift
 {
     NSMutableArray *yArray = [NSMutableArray array];
     for (int i = 0; i <= xMaxValue; i++) {
-        [yArray addObject:[NSNumber numberWithDouble:[self.dataSourceForGraph yValueFor:i*xScale]]];
+        [yArray addObject:[NSNumber numberWithDouble:[self.dataSourceForGraph yValueFor:(i-xShift)*xScale]]];
     }
     return yArray;
 }
