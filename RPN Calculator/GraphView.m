@@ -48,15 +48,22 @@
 
 - (void)drawAxisInContext:(CGContextRef)context
 {
+// axis
     CGContextSetLineWidth(context, 2.0);
     [[UIColor blackColor] setStroke];
-
     CGContextBeginPath(context);
     CGContextMoveToPoint(context, 0, self.verticalShift);
     CGContextAddLineToPoint(context, 0, self.verticalShift-self.bounds.size.height);
     CGContextMoveToPoint(context, -self.horizontalShift, 0);
     CGContextAddLineToPoint(context, self.bounds.size.width-self.horizontalShift, 0);
     CGContextStrokePath(context);
+//ticks
+    CGContextSetLineWidth(context, 1.0);
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, 10, -5);
+    CGContextAddLineToPoint(context, 10, 5);
+    CGContextStrokePath(context);
+
 }
 
 
