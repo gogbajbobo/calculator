@@ -52,16 +52,47 @@
     CGContextSetLineWidth(context, 2.0);
     [[UIColor blackColor] setStroke];
     CGContextBeginPath(context);
+    // y-axis
     CGContextMoveToPoint(context, 0, self.verticalShift);
     CGContextAddLineToPoint(context, 0, self.verticalShift-self.bounds.size.height);
+    // x-axis
     CGContextMoveToPoint(context, -self.horizontalShift, 0);
     CGContextAddLineToPoint(context, self.bounds.size.width-self.horizontalShift, 0);
+    
     CGContextStrokePath(context);
-//ticks
+
+    // ticks
+    CGFloat majorTickLength = 10;
+    CGFloat minorTickLength = 4;
+    
     CGContextSetLineWidth(context, 1.0);
     CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 10, -5);
-    CGContextAddLineToPoint(context, 10, 5);
+
+    CGFloat xStep = 50;
+    CGFloat xTicksStart = ceilf(-self.horizontalShift/xStep)*xStep;
+    CGFloat xTicksEnd = floorf((self.bounds.size.width-self.horizontalShift)/xStep)*xStep;
+    CGContextMoveToPoint(context, xTicksStart-xStep/2, -minorTickLength/2);
+    CGContextAddLineToPoint(context, xTicksStart-xStep/2, minorTickLength/2);
+    for (float i = xTicksStart; i <= xTicksEnd; i += xStep) {
+        CGContextMoveToPoint(context, i, -majorTickLength/2);
+        CGContextAddLineToPoint(context, i, majorTickLength/2);
+        CGContextMoveToPoint(context, i+xStep/2, -minorTickLength/2);
+        CGContextAddLineToPoint(context, i+xStep/2, minorTickLength/2);
+    }
+
+    CGFloat yStep = 50;
+    CGFloat yTicksStart = ceilf((self.verticalShift-self.bounds.size.height)/yStep)*yStep;
+    CGFloat yTicksEnd = floorf(self.verticalShift/yStep)*yStep;
+    NSLog(@" %f %f",yTicksEnd,yTicksStart);
+    CGContextMoveToPoint(context, -minorTickLength/2, yTicksStart-yStep/2);
+    CGContextAddLineToPoint(context, minorTickLength/2, yTicksStart-yStep/2);
+    for (float i = yTicksStart; i <= yTicksEnd; i += yStep) {
+        CGContextMoveToPoint(context, -majorTickLength/2, i);
+        CGContextAddLineToPoint(context, majorTickLength/2, i);
+        CGContextMoveToPoint(context, -minorTickLength/2, i+yStep/2);
+        CGContextAddLineToPoint(context, minorTickLength/2, i+yStep/2);
+    }
+
     CGContextStrokePath(context);
 
 }
@@ -81,7 +112,7 @@
     CGPoint currPoint;
     CGFloat maxValue = 0.0;
     CGFloat minValue = 0.0;
-    self.horizontalShift = 200;
+//    self.horizontalShift = 200;
     NSArray *yValues = [self.dataSource yValuesForXFromZeroTo:self.bounds.size.width
                                                    withXScale:self.xScale
                                                     andXShift:self.horizontalShift];
@@ -96,7 +127,7 @@
     [[UIColor blueColor] setStroke];
     self.verticalShift = self.bounds.size.height+(minValue * self.yScale);
 //    NSLog(@"vS%fmV%fyS%fH%f",self.verticalShift,minValue,self.yScale,self.bounds.size.height);
-    self.verticalShift = 130;
+//    self.verticalShift = 130;
     CGContextTranslateCTM(context, self.horizontalShift, self.verticalShift);
     CGContextScaleCTM(context, 1.0, -1.0);
 
