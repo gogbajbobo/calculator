@@ -28,12 +28,12 @@
     self.description.backgroundColor = [UIColor whiteColor];
 }
 
-- (NSArray *)yValues:(int)xMaxValue
+- (NSArray *)yValuesForXFromZeroTo:(int)xMaxValue
+                        withXScale:(CGFloat)xScale
 {
-    float scale = 0.1;
     NSMutableArray *yArray = [NSMutableArray array];
     for (int i = 0; i <= xMaxValue; i++) {
-        [yArray addObject:[NSNumber numberWithDouble:[self.dataSourceForGraph yValueFor:i*scale]]];
+        [yArray addObject:[NSNumber numberWithDouble:[self.dataSourceForGraph yValueFor:i*xScale]]];
     }
     return yArray;
 }
