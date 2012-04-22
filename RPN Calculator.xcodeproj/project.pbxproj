@@ -19,7 +19,6 @@
 		2C97B671153DB3F800C61941 /* GraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97B670153DB3F800C61941 /* GraphViewController.m */; };
 		2C97B675153ED0D500C61941 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97B674153ED0D500C61941 /* GraphView.m */; };
 		2CF2CE9C1542E36400DAD663 /* DescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2CE9B1542E36400DAD663 /* DescriptionView.m */; };
-		2CF2CEA01543175E00DAD663 /* AxisView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2CE9F1543175E00DAD663 /* AxisView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,8 +43,6 @@
 		2C97B674153ED0D500C61941 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
 		2CF2CE9A1542E36400DAD663 /* DescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescriptionView.h; sourceTree = "<group>"; };
 		2CF2CE9B1542E36400DAD663 /* DescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DescriptionView.m; sourceTree = "<group>"; };
-		2CF2CE9E1543175D00DAD663 /* AxisView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AxisView.h; sourceTree = "<group>"; };
-		2CF2CE9F1543175E00DAD663 /* AxisView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AxisView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,8 +89,6 @@
 		2C05A45F15179BED002E706C /* RPN Calculator */ = {
 			isa = PBXGroup;
 			children = (
-				2CF2CE9E1543175D00DAD663 /* AxisView.h */,
-				2CF2CE9F1543175E00DAD663 /* AxisView.m */,
 				2C05A46815179BED002E706C /* CalculatorAppDelegate.h */,
 				2C05A46915179BED002E706C /* CalculatorAppDelegate.m */,
 				2C05A46B15179BED002E706C /* MainStoryboard.storyboard */,
@@ -194,7 +189,6 @@
 				2C97B671153DB3F800C61941 /* GraphViewController.m in Sources */,
 				2C97B675153ED0D500C61941 /* GraphView.m in Sources */,
 				2CF2CE9C1542E36400DAD663 /* DescriptionView.m in Sources */,
-				2CF2CEA01543175E00DAD663 /* AxisView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
