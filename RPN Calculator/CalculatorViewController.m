@@ -208,9 +208,9 @@
     return [self.brain showDescription];
 }
 
-- (float)yValueFor:(int)xValue
+- (float)yValueFor:(float)xValue
 {
-    [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithInt:(xValue)], nil]]];
+    [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithFloat:(xValue)], nil]]];
     return [[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]] floatValue];
 }
 

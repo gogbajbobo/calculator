@@ -42,9 +42,9 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGPoint currPoint;
-    CGFloat maxValue = 1.0;
-    CGFloat minValue = -1.0;
-    CGFloat scale;
+    CGFloat maxValue = 0.0;
+    CGFloat minValue = 0.0;
+    CGFloat scale = 0.0;
     NSArray *yValues = [self.dataSource yValues:self.bounds.size.width];
     for (int i = 0; i < self.bounds.size.width; i++) {
         currPoint.y = [[yValues objectAtIndex:i] floatValue];
@@ -52,11 +52,14 @@
         if (currPoint.y < minValue) minValue = currPoint.y;
     }
     scale = self.bounds.size.height/(maxValue - minValue);
+    NSLog(@"height%f",self.bounds.size.height);
     NSLog(@"max%fmin%fscale%f",maxValue,minValue,scale);
     
     CGContextSetLineWidth(context, 1.0);
     [[UIColor blueColor] setStroke];
-    CGContextTranslateCTM(context, 0.0, self.bounds.size.height+(minValue * scale));
+    CGFloat verticalShift = self.bounds.size.height+(minValue * scale);
+    NSLog(@"vS%f",verticalShift);
+    CGContextTranslateCTM(context, 0.0, verticalShift);
     CGContextScaleCTM(context, 1.0, -1.0);
 
     UIGraphicsPushContext(context);

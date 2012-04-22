@@ -30,7 +30,7 @@
 
 - (NSArray *)yValues:(int)xMaxValue
 {
-    float scale = 1;
+    float scale = 0.1;
     NSMutableArray *yArray = [NSMutableArray array];
     for (int i = 0; i <= xMaxValue; i++) {
         [yArray addObject:[NSNumber numberWithDouble:[self.dataSourceForGraph yValueFor:i*scale]]];
