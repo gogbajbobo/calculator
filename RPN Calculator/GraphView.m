@@ -53,17 +53,19 @@
     [[UIColor blackColor] setStroke];
     CGContextBeginPath(context);
     // y-axis
-    CGContextMoveToPoint(context, 0, self.verticalShift);
-    CGContextAddLineToPoint(context, 0, self.verticalShift-self.bounds.size.height);
+    CGContextMoveToPoint(context, 0, -self.verticalShift);
+    CGContextAddLineToPoint(context, 0, -self.verticalShift+self.bounds.size.height);
     // x-axis
     CGContextMoveToPoint(context, -self.horizontalShift, 0);
     CGContextAddLineToPoint(context, self.bounds.size.width-self.horizontalShift, 0);
     
     CGContextStrokePath(context);
 
-    // ticks
+// ticks
     CGFloat majorTickLength = 10;
     CGFloat minorTickLength = 4;
+    UIFont *font = [UIFont systemFontOfSize:12];
+    CGAffineTransform textTransform = CGAffineTransformScale(CGAffineTransformIdentity, 1, -1);
     
     CGContextSetLineWidth(context, 1.0);
     CGContextBeginPath(context);
@@ -76,6 +78,14 @@
     for (float i = xTicksStart; i <= xTicksEnd; i += xStep) {
         CGContextMoveToPoint(context, i, -majorTickLength/2);
         CGContextAddLineToPoint(context, i, majorTickLength/2);
+        CGRect textRect;
+        NSString *tickValue = [NSString stringWithString:[[NSNumber numberWithInt:rint(i)] stringValue]];
+        if ([tickValue isEqualToString:@"0"])tickValue = @"";
+        textRect.size = [tickValue sizeWithFont:font];
+        textRect.origin.x = i - textRect.size.width / 2;
+        textRect.origin.y = 20 - textRect.size.height / 2;
+        [tickValue drawInRect:textRect withFont:font];
+        textRect = CGRectApplyAffineTransform(textRect, textTransform);
         CGContextMoveToPoint(context, i+xStep/2, -minorTickLength/2);
         CGContextAddLineToPoint(context, i+xStep/2, minorTickLength/2);
     }
@@ -89,12 +99,19 @@
     for (float i = yTicksStart; i <= yTicksEnd; i += yStep) {
         CGContextMoveToPoint(context, -majorTickLength/2, i);
         CGContextAddLineToPoint(context, majorTickLength/2, i);
+        CGRect textRect;
+        textRect = CGRectApplyAffineTransform(textRect, textTransform);
+        NSString *tickValue = [NSString stringWithString:[[NSNumber numberWithInt:rint(i)] stringValue]];
+        if ([tickValue isEqualToString:@"0"])tickValue = @"";
+        textRect.size = [tickValue sizeWithFont:font];
+        textRect.origin.x = 20 - textRect.size.width / 2;
+        textRect.origin.y = i - textRect.size.height / 2;
+        [tickValue drawInRect:textRect withFont:font];
         CGContextMoveToPoint(context, -minorTickLength/2, i+yStep/2);
         CGContextAddLineToPoint(context, minorTickLength/2, i+yStep/2);
     }
 
     CGContextStrokePath(context);
-
 }
 
 
@@ -112,7 +129,7 @@
     CGPoint currPoint;
     CGFloat maxValue = 0.0;
     CGFloat minValue = 0.0;
-//    self.horizontalShift = 200;
+    self.horizontalShift = 200;
     NSArray *yValues = [self.dataSource yValuesForXFromZeroTo:self.bounds.size.width
                                                    withXScale:self.xScale
                                                     andXShift:self.horizontalShift];
@@ -121,15 +138,15 @@
         if (currPoint.y > maxValue) maxValue = currPoint.y;
         if (currPoint.y < minValue) minValue = currPoint.y;
     }
-    self.yScale = self.bounds.size.height/(maxValue - minValue);
+    self.yScale = self.bounds.size.height/(minValue - maxValue);
     
     CGContextSetLineWidth(context, 1.0);
     [[UIColor blueColor] setStroke];
     self.verticalShift = self.bounds.size.height+(minValue * self.yScale);
 //    NSLog(@"vS%fmV%fyS%fH%f",self.verticalShift,minValue,self.yScale,self.bounds.size.height);
-//    self.verticalShift = 130;
+    self.verticalShift = 130;
     CGContextTranslateCTM(context, self.horizontalShift, self.verticalShift);
-    CGContextScaleCTM(context, 1.0, -1.0);
+//    CGContextScaleCTM(context, 1.0, -1.0);
 
     UIGraphicsPushContext(context);
     CGContextBeginPath(context);
