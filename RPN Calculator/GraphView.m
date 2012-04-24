@@ -97,14 +97,17 @@
     NSLog(@"TS%f TE%f vS%f bH%f yS%f ySc%f",yTicksStart,yTicksEnd,self.verticalShift,self.bounds.size.height,yStep,self.yScale);
     CGContextMoveToPoint(context, -minorTickLength/2, self.yScale * (yTicksStart - yStep / 2));
     CGContextAddLineToPoint(context, minorTickLength/2, self.yScale * (yTicksStart - yStep / 2));
-    NSLog(@"ft %f",(yTicksStart-yStep/2));
     for (float i = yTicksStart; i <= yTicksEnd; i += yStep) {
-        NSLog(@"i %f", i);
         CGContextMoveToPoint(context, -majorTickLength/2, self.yScale * i);
         CGContextAddLineToPoint(context, majorTickLength/2, self.yScale * i);
         CGRect textRect;
         textRect = CGRectApplyAffineTransform(textRect, textTransform);
-        NSString *tickValue = [NSString stringWithString:[[NSNumber numberWithInt:rint(i)] stringValue]];
+        NSString *tickValue;
+        if (i < 10) {
+            tickValue = [NSString stringWithString:[[NSNumber numberWithFloat:i] stringValue]];
+        } else {
+            tickValue = [NSString stringWithString:[[NSNumber numberWithInt:rint(i)] stringValue]];
+        }
         if ([tickValue isEqualToString:@"0"])tickValue = @"";
         textRect.size = [tickValue sizeWithFont:font];
         textRect.origin.x = 20 - textRect.size.width / 2;
@@ -120,13 +123,34 @@
 
 - (CGFloat)tickStepCalculateFor:(CGFloat)axisRange
 {
-    NSString *axisRangeString = [NSString stringWithFormat:@"%d",lrintf(abs(axisRange))];
-    CGFloat tickStep;
-    unichar firstChar = [axisRangeString characterAtIndex:0];
-    if (firstChar >= '0' && firstChar <= '4') {
-        tickStep = 0.5 * powf(10, axisRangeString.length-1);
-    } else if ((firstChar >= '5' && firstChar <= '9')) {
-        tickStep = powf(10, axisRangeString.length-1);
+    CGFloat tickStep = 1;
+    if (axisRange < 1) {
+        NSString *axisRangeString = [NSString stringWithFormat:@"%f",fabs(axisRange)];
+        NSLog(@"%f",fabs(axisRange));
+        NSLog(@"%@",axisRangeString);
+        unichar charAtIndex;
+        int charPosition;
+        for (int i = 0; i < axisRangeString.length; i++) {
+            charAtIndex = [axisRangeString characterAtIndex:i];
+            if (charAtIndex != '0' && charAtIndex != '.') {
+                charPosition = i;
+                break;
+            }
+        }
+        NSLog(@"charAtIndex %C %d", charAtIndex, charPosition);
+        if (charAtIndex >= '0' && charAtIndex <= '4') {
+            tickStep = 0.5 * powf(10, -(charPosition-1));
+        } else if ((charAtIndex >= '5' && charAtIndex <= '9')) {
+            tickStep = powf(10, -(charPosition-1));
+        }
+    } else {
+        NSString *axisRangeString = [NSString stringWithFormat:@"%d",lrintf(abs(axisRange))];
+        unichar firstChar = [axisRangeString characterAtIndex:0];
+        if (firstChar >= '0' && firstChar <= '4') {
+            tickStep = 0.5 * powf(10, axisRangeString.length-1);
+        } else if ((firstChar >= '5' && firstChar <= '9')) {
+            tickStep = powf(10, axisRangeString.length-1);
+        }
     }
     return tickStep;
 }
@@ -154,11 +178,10 @@
         if (currPoint.y < minValue) minValue = currPoint.y;
     }
     self.yScale = self.bounds.size.height/(minValue - maxValue);
-    
+    self.yScale = -400;
     CGContextSetLineWidth(context, 1.0);
     [[UIColor blueColor] setStroke];
     self.verticalShift = self.bounds.size.height+(minValue * self.yScale);
-//    NSLog(@"vS%fmV%fyS%fH%f",self.verticalShift,minValue,self.yScale,self.bounds.size.height);
     self.verticalShift = 330;
     CGContextTranslateCTM(context, self.horizontalShift, self.verticalShift);
 //    CGContextScaleCTM(context, 1.0, -1.0);
