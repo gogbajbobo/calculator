@@ -70,6 +70,7 @@
     CGContextSetLineWidth(context, 1.0);
     CGContextBeginPath(context);
 
+// x-axis ticks and labels
 //    CGFloat xStep = 50;
     CGFloat xStep = [self tickStepCalculateFor:self.bounds.size.width/self.xScale];
     CGFloat xTicksStart = ceilf(-self.horizontalShift/(xStep*self.xScale))*xStep;
@@ -98,6 +99,7 @@
         CGContextAddLineToPoint(context, self.xScale * (i+xStep/2), minorTickLength/2);
     }
 
+// y-axis ticks and labels
 //    CGFloat yStep = 50;
     CGFloat yStep = [self tickStepCalculateFor:self.bounds.size.height/self.yScale];
     CGFloat yTicksEnd = ceilf(-self.verticalShift/(yStep*self.yScale))*yStep;
