@@ -64,7 +64,7 @@
 // ticks
     CGFloat majorTickLength = 10;
     CGFloat minorTickLength = 4;
-    UIFont *font = [UIFont systemFontOfSize:12];
+    UIFont *font = [UIFont systemFontOfSize:10];
     CGAffineTransform textTransform = CGAffineTransformScale(CGAffineTransformIdentity, 1, -1);
     
     CGContextSetLineWidth(context, 1.0);
@@ -90,31 +90,46 @@
         CGContextAddLineToPoint(context, i+xStep/2, minorTickLength/2);
     }
 
-    CGFloat yStep = 50;
-    CGFloat yTicksStart = ceilf(-self.verticalShift/yStep)*yStep;
-    CGFloat yTicksEnd = floorf(-(self.verticalShift-self.bounds.size.height)/yStep)*yStep;
-    NSLog(@" %f %f %f %f %f",yTicksStart,yTicksEnd,self.verticalShift,self.bounds.size.height,yStep);
-    CGContextMoveToPoint(context, -minorTickLength/2, yTicksStart-yStep/2);
-    CGContextAddLineToPoint(context, minorTickLength/2, yTicksStart-yStep/2);
+//    CGFloat yStep = 50;
+    CGFloat yStep = [self tickStepCalculateFor:self.bounds.size.height/self.yScale];
+    CGFloat yTicksEnd = ceilf(-self.verticalShift/(yStep*self.yScale))*yStep;
+    CGFloat yTicksStart = floorf(-(self.verticalShift-self.bounds.size.height)/(yStep*self.yScale))*yStep;
+    NSLog(@"TS%f TE%f vS%f bH%f yS%f ySc%f",yTicksStart,yTicksEnd,self.verticalShift,self.bounds.size.height,yStep,self.yScale);
+    CGContextMoveToPoint(context, -minorTickLength/2, self.yScale * (yTicksStart - yStep / 2));
+    CGContextAddLineToPoint(context, minorTickLength/2, self.yScale * (yTicksStart - yStep / 2));
+    NSLog(@"ft %f",(yTicksStart-yStep/2));
     for (float i = yTicksStart; i <= yTicksEnd; i += yStep) {
-        CGContextMoveToPoint(context, -majorTickLength/2, i);
-        CGContextAddLineToPoint(context, majorTickLength/2, i);
+        NSLog(@"i %f", i);
+        CGContextMoveToPoint(context, -majorTickLength/2, self.yScale * i);
+        CGContextAddLineToPoint(context, majorTickLength/2, self.yScale * i);
         CGRect textRect;
         textRect = CGRectApplyAffineTransform(textRect, textTransform);
-        NSString *tickValue = [NSString stringWithString:[[NSNumber numberWithInt:rint(-i)] stringValue]];
+        NSString *tickValue = [NSString stringWithString:[[NSNumber numberWithInt:rint(i)] stringValue]];
         if ([tickValue isEqualToString:@"0"])tickValue = @"";
         textRect.size = [tickValue sizeWithFont:font];
         textRect.origin.x = 20 - textRect.size.width / 2;
-        textRect.origin.y = i - textRect.size.height / 2;
+        textRect.origin.y = self.yScale * i - textRect.size.height / 2;
         [tickValue drawInRect:textRect withFont:font];
-        CGContextMoveToPoint(context, -minorTickLength/2, i+yStep/2);
-        CGContextAddLineToPoint(context, minorTickLength/2, i+yStep/2);
+        CGContextMoveToPoint(context, -minorTickLength/2, self.yScale * (i + yStep / 2));
+        CGContextAddLineToPoint(context, minorTickLength/2, self.yScale * (i + yStep / 2));
     }
 
     CGContextStrokePath(context);
+
 }
 
-
+- (CGFloat)tickStepCalculateFor:(CGFloat)axisRange
+{
+    NSString *axisRangeString = [NSString stringWithFormat:@"%d",lrintf(abs(axisRange))];
+    CGFloat tickStep;
+    unichar firstChar = [axisRangeString characterAtIndex:0];
+    if (firstChar >= '0' && firstChar <= '4') {
+        tickStep = 0.5 * powf(10, axisRangeString.length-1);
+    } else if ((firstChar >= '5' && firstChar <= '9')) {
+        tickStep = powf(10, axisRangeString.length-1);
+    }
+    return tickStep;
+}
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -129,7 +144,7 @@
     CGPoint currPoint;
     CGFloat maxValue = 0.0;
     CGFloat minValue = 0.0;
-    self.horizontalShift = 300;
+    self.horizontalShift = 283;
     NSArray *yValues = [self.dataSource yValuesForXFromZeroTo:self.bounds.size.width
                                                    withXScale:self.xScale
                                                     andXShift:self.horizontalShift];
