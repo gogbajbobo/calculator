@@ -124,7 +124,7 @@
 - (CGFloat)tickStepCalculateFor:(CGFloat)axisRange
 {
     CGFloat tickStep = 1;
-    if (axisRange < 1) {
+    if (fabs(axisRange) < 1) {
         NSString *axisRangeString = [NSString stringWithFormat:@"%f",fabs(axisRange)];
         NSLog(@"%f",fabs(axisRange));
         NSLog(@"%@",axisRangeString);
@@ -138,18 +138,20 @@
             }
         }
         NSLog(@"charAtIndex %C %d", charAtIndex, charPosition);
-        if (charAtIndex >= '0' && charAtIndex <= '4') {
+        if (charAtIndex >= '1' && charAtIndex <= '4') {
             tickStep = 0.5 * powf(10, -(charPosition-1));
         } else if ((charAtIndex >= '5' && charAtIndex <= '9')) {
             tickStep = powf(10, -(charPosition-1));
         }
     } else {
-        NSString *axisRangeString = [NSString stringWithFormat:@"%d",lrintf(abs(axisRange))];
+        CGFloat powOfTen = [[NSString stringWithFormat:@"%d",lrintf(abs(axisRange))] length];
+        NSString *axisRangeString = [NSString stringWithFormat:@"%f",fabs(axisRange)];
+        NSLog(@"pOT %f aR %f aRS %@",powOfTen,axisRange,axisRangeString);
         unichar firstChar = [axisRangeString characterAtIndex:0];
-        if (firstChar >= '0' && firstChar <= '4') {
-            tickStep = 0.5 * powf(10, axisRangeString.length-1);
+        if (firstChar >= '1' && firstChar <= '4') {
+            tickStep = 0.5 * powf(10, powOfTen - 1);
         } else if ((firstChar >= '5' && firstChar <= '9')) {
-            tickStep = powf(10, axisRangeString.length-1);
+            tickStep = powf(10, powOfTen - 1);
         }
     }
     return tickStep;
@@ -178,7 +180,7 @@
         if (currPoint.y < minValue) minValue = currPoint.y;
     }
     self.yScale = self.bounds.size.height/(minValue - maxValue);
-    self.yScale = -400;
+    self.yScale = -5;
     CGContextSetLineWidth(context, 1.0);
     [[UIColor blueColor] setStroke];
     self.verticalShift = self.bounds.size.height+(minValue * self.yScale);
