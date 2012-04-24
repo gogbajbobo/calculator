@@ -34,7 +34,7 @@
 {
     NSMutableArray *yArray = [NSMutableArray array];
     for (int i = 0; i <= xMaxValue; i++) {
-        [yArray addObject:[NSNumber numberWithDouble:[self.dataSourceForGraph yValueFor:(i-xShift)*xScale]]];
+        [yArray addObject:[NSNumber numberWithDouble:[self.dataSourceForGraph yValueFor:(i-xShift)/xScale]]];
     }
     return yArray;
 }
