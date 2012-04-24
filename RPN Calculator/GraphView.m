@@ -8,12 +8,37 @@
 
 #import "GraphView.h"
 
+@interface GraphView()
+@property (nonatomic) BOOL scaleChanged;
+@property (nonatomic) BOOL shifted;
+
+@end
+
 @implementation GraphView
 @synthesize dataSource = _dataSource;
 @synthesize xScale = _xScale;
 @synthesize yScale = _yScale;
 @synthesize verticalShift = _verticalShift;
 @synthesize horizontalShift = _horizontalShift;
+@synthesize scale = _scale;
+@synthesize scaleChanged = _scaleChanged;
+@synthesize shifted = _shifted;
+
+- (CGFloat)scale
+{
+    if (!_scale) _scale = 1.0;
+    return _scale;
+}
+
+- (void)setScale:(CGFloat)scale
+{
+    _scale = scale;
+    self.xScale = -scale;
+    self.yScale = scale;
+    NSLog(@"scale %f",self.scale);
+    self.scaleChanged = YES;
+    [self setNeedsDisplay];
+}
 
 - (CGFloat)xScale
 {
@@ -26,6 +51,18 @@
     if (!_yScale) _yScale = 1.0;
     return _yScale;
 }
+
+- (void)setVerticalShift:(CGFloat)verticalShift
+{
+    _verticalShift = verticalShift;
+    self.shifted = YES;
+}
+
+//- (void)setHorizontalShift:(CGFloat)horizontalShift
+//{
+//    _horizontalShift = horizontalShift;
+//    self.shifted = YES;
+//}
 
 - (void)setup
 {
@@ -181,7 +218,9 @@
     CGFloat maxValue = 0.0;
     CGFloat minValue = 0.0;
     self.horizontalShift = 20;
-    self.xScale = 1;
+
+    
+//    self.xScale = 1;
     NSArray *yValues = [self.dataSource yValuesForXFromZeroTo:self.bounds.size.width
                                                    withXScale:self.xScale
                                                     andXShift:self.horizontalShift];
@@ -190,11 +229,18 @@
         if (currPoint.y > maxValue) maxValue = currPoint.y;
         if (currPoint.y < minValue) minValue = currPoint.y;
     }
-    self.yScale = self.bounds.size.height/(minValue - maxValue);
+    if (!self.scaleChanged) {
+        self.scale = self.bounds.size.height/(minValue - maxValue);
+        NSLog(@"scale no changed");
+    }
+    if (!self.shifted) {
+        self.verticalShift = self.bounds.size.height-(minValue * self.yScale);        
+        NSLog(@"and no shifted");
+    }
+//    self.verticalShift = 330;
+
     CGContextSetLineWidth(context, 1.0);
     [[UIColor blueColor] setStroke];
-    self.verticalShift = self.bounds.size.height-(minValue * self.yScale);
-//    self.verticalShift = 330;
     CGContextTranslateCTM(context, self.horizontalShift, self.verticalShift);
 //    CGContextScaleCTM(context, 1.0, -1.0);
 

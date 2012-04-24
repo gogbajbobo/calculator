@@ -26,6 +26,7 @@
     self.graphView.dataSource = self;
     self.description.text = [self.dataSourceForGraph descriptionText];
     self.description.backgroundColor = [UIColor whiteColor];
+    [self.graphView addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)]];
 }
 
 - (NSArray *)yValuesForXFromZeroTo:(int)xMaxValue
@@ -40,6 +41,15 @@
 }
 
 
+- (void)pinch:(UIPinchGestureRecognizer *)gesture
+{
+    if ((gesture.state == UIGestureRecognizerStateChanged) || 
+        (gesture.state == UIGestureRecognizerStateEnded)) {
+        self.graphView.scale *= gesture.scale;
+//        NSLog(@"gV.scale %f",self.graphView.scale);
+        gesture.scale = 1;
+    }
+}
 
 
 
