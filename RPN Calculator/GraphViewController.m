@@ -55,7 +55,7 @@
         } else if (yDiff == 0) {
             self.graphView.xScale *= gesture.scale;
         } else {
-            self.graphView.scale *= gesture.scale;
+            self.graphView.scale = gesture.scale;
         }
         gesture.scale = 1;
         NSLog(@"diff x%f y%f", xDiff, yDiff);

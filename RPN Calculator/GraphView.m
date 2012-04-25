@@ -20,6 +20,8 @@
 @synthesize yScale = _yScale;
 @synthesize verticalShift = _verticalShift;
 @synthesize horizontalShift = _horizontalShift;
+
+// It's possible to 
 @synthesize scale = _scale;
 @synthesize scaleChanged = _scaleChanged;
 @synthesize shifted = _shifted;
@@ -33,12 +35,19 @@
 
 - (void)setScale:(CGFloat)scale
 {
-    _scale = scale;
-    self.xScale = scale/self.xyScaleRelation;
-    self.yScale = scale;
-    NSLog(@"scale %f xScale %f yScale %f xyScaleRelation %f",self.scale, self.xScale, self.yScale, self.xyScaleRelation);
-    self.scaleChanged = YES;
-    [self setNeedsDisplay];
+    if (!self.scaleChanged) {
+        _scale = 1;
+        self.xScale = scale/self.xyScaleRelation;
+        self.yScale = scale;
+        NSLog(@"scale %f xScale %f yScale %f xyScaleRelation %f",self.scale, self.xScale, self.yScale, self.xyScaleRelation);
+        self.scaleChanged = YES;
+    } else {
+        _scale = 1;
+        self.xScale *= scale;
+        self.yScale *= scale;
+    }
+
+//    [self setNeedsDisplay];
 }
 
 - (CGFloat)xScale
