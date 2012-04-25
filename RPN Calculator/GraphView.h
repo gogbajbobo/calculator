@@ -23,7 +23,8 @@
 @property (nonatomic) CGFloat xScale;
 @property (nonatomic) CGFloat verticalShift;
 @property (nonatomic) CGFloat horizontalShift;
-@property (nonatomic) CGFloat scale;
 @property (nonatomic) CGFloat xyScaleRelation;
+
+- (void)changeScale:(CGFloat)scale;
 
 @end
