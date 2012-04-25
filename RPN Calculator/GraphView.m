@@ -25,6 +25,7 @@
 @synthesize shifted = _shifted;
 @synthesize xyScaleRelation = _xyScaleRelation;
 
+#define HOR_SHIFT_INIT 20.0;
 
 - (void)changeScale:(CGFloat)scale
 {
@@ -40,8 +41,8 @@
 
 - (void)setXScale:(CGFloat)xScale
 {
+    self.horizontalShift = self.horizontalShift - (self.bounds.size.width/2 - self.horizontalShift) * ((xScale/_xScale) - 1);
     _xScale = xScale;
-    [self setNeedsDisplay];
 }
 
 - (CGFloat)yScale
@@ -52,22 +53,32 @@
 
 - (void)setYScale:(CGFloat)yScale
 {
+    if (self.scaleChanged) {
+        self.verticalShift = self.verticalShift - (self.bounds.size.height/2 - self.verticalShift) * ((yScale/_yScale) - 1);
+    }
     _yScale = yScale;
     self.scaleChanged = YES;
-    [self setNeedsDisplay];
 }
 
 - (void)setVerticalShift:(CGFloat)verticalShift
 {
     _verticalShift = verticalShift;
     self.shifted = YES;
+    [self setNeedsDisplay];
 }
 
-//- (void)setHorizontalShift:(CGFloat)horizontalShift
-//{
-//    _horizontalShift = horizontalShift;
-//    self.shifted = YES;
-//}
+- (CGFloat)horizontalShift
+{
+    if (!_horizontalShift) _horizontalShift = HOR_SHIFT_INIT;
+    return _horizontalShift;
+}
+
+- (void)setHorizontalShift:(CGFloat)horizontalShift
+{
+    _horizontalShift = horizontalShift;
+    self.shifted = YES;
+    [self setNeedsDisplay];
+}
 
 - (void)setup
 {
@@ -117,7 +128,6 @@
     CGFloat xStep = [self tickStepCalculateFor:self.bounds.size.width/self.xScale];
     CGFloat xTicksStart = ceilf(-self.horizontalShift/(xStep*self.xScale))*xStep;
     CGFloat xTicksEnd = floorf((self.bounds.size.width-self.horizontalShift)/(xStep*self.xScale))*xStep;
-    NSLog(@"TS%f TE%f vS%f bH%f yS%f ySc%f",xTicksStart,xTicksEnd,self.horizontalShift,self.bounds.size.width,xStep,self.xScale);
     CGContextMoveToPoint(context, self.xScale * (xTicksStart - xStep / 2), -minorTickLength/2);
     CGContextAddLineToPoint(context, self.xScale * (xTicksStart-xStep/2), minorTickLength/2);
     for (float i = xTicksStart; i <= xTicksEnd; i += xStep) {
@@ -178,8 +188,6 @@
     CGFloat tickStep = 1;
     if (fabs(axisRange) < 1) {
         NSString *axisRangeString = [NSString stringWithFormat:@"%f",fabs(axisRange)];
-        NSLog(@"%f",fabs(axisRange));
-        NSLog(@"%@",axisRangeString);
         unichar charAtIndex;
         int charPosition;
         for (int i = 0; i < axisRangeString.length; i++) {
@@ -189,7 +197,6 @@
                 break;
             }
         }
-        NSLog(@"charAtIndex %C %d", charAtIndex, charPosition);
         if (charAtIndex >= '2' && charAtIndex <= '5') {
             tickStep = 0.5 * powf(10, -(charPosition-1));
         } else if (charAtIndex >= '6' && charAtIndex <= '9') {
@@ -200,7 +207,6 @@
     } else {
         CGFloat powOfTen = [[NSString stringWithFormat:@"%d",lrintf(abs(axisRange))] length];
         NSString *axisRangeString = [NSString stringWithFormat:@"%f",fabs(axisRange)];
-        NSLog(@"pOT %f aR %f aRS %@",powOfTen,axisRange,axisRangeString);
         unichar firstChar = [axisRangeString characterAtIndex:0];
         if (firstChar >= '2' && firstChar <= '5') {
             tickStep = 0.5 * powf(10, powOfTen - 1);
@@ -226,7 +232,6 @@
     CGPoint currPoint;
     CGFloat maxValue = 0.0;
     CGFloat minValue = 0.0;
-    self.horizontalShift = 20;
 
     NSArray *yValues = [self.dataSource yValuesForXFromZeroTo:self.bounds.size.width
                                                    withXScale:self.xScale
@@ -240,7 +245,6 @@
 
     if (!self.shifted) {
         self.verticalShift = self.bounds.size.height-(minValue * self.yScale);        
-        NSLog(@"and no shifted");
     }
 
     CGContextSetLineWidth(context, 1.0);

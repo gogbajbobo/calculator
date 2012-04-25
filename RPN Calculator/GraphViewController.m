@@ -29,6 +29,7 @@
     self.description.text = [self.dataSourceForGraph descriptionText];
     self.description.backgroundColor = [UIColor whiteColor];
     [self.graphView addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)]];
+    [self.graphView addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)]];
 }
 
 - (NSArray *)yValuesForXFromZeroTo:(int)xMaxValue
@@ -42,6 +43,16 @@
     return yArray;
 }
 
+- (void)pan:(UIPanGestureRecognizer *)gesture
+{
+    if ((gesture.state == UIGestureRecognizerStateChanged) || 
+        (gesture.state == UIGestureRecognizerStateEnded)) {
+        CGPoint translation = [gesture translationInView:self.graphView];
+        self.graphView.verticalShift += translation.y;
+        self.graphView.horizontalShift += translation.x;
+        [gesture setTranslation:CGPointZero inView:self.graphView];
+    }
+}
 
 - (void)pinch:(UIPinchGestureRecognizer *)gesture
 {
@@ -58,9 +69,7 @@
             [self.graphView changeScale:gesture.scale];
         }
         gesture.scale = 1;
-        NSLog(@"diff x%f y%f", xDiff, yDiff);
         self.touchPoint = [gesture locationOfTouch:1 inView:self.graphView];
-        NSLog(@"Touches %f %f",self.touchPoint.x, self.touchPoint.y);
     }
 }
 
