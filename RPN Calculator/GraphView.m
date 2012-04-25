@@ -131,24 +131,19 @@
     CGContextMoveToPoint(context, self.xScale * (xTicksStart - xStep / 2), -minorTickLength/2);
     CGContextAddLineToPoint(context, self.xScale * (xTicksStart-xStep/2), minorTickLength/2);
     for (float i = xTicksStart; i <= xTicksEnd; i += xStep) {
-        i = rintf(i / xStep) * xStep;
-        CGContextMoveToPoint(context, self.xScale * i, -majorTickLength/2);
-        CGContextAddLineToPoint(context, self.xScale * i, majorTickLength/2);
+        float ii = rintf(i / xStep) * xStep;
+        CGContextMoveToPoint(context, self.xScale * ii, -majorTickLength/2);
+        CGContextAddLineToPoint(context, self.xScale * ii, majorTickLength/2);
         CGRect textRect;
-        NSString *tickValue;
-        if (fabs(i) < 10) {
-            tickValue = [NSString stringWithString:[[NSNumber numberWithFloat:i] stringValue]];
-        } else {
-            tickValue = [NSString stringWithString:[[NSNumber numberWithInt:rint(i)] stringValue]];
-        }
+        NSString *tickValue = [NSString stringWithString:[[NSNumber numberWithFloat:ii] stringValue]];
         if ([tickValue isEqualToString:@"0"])tickValue = @"";
         textRect.size = [tickValue sizeWithFont:font];
-        textRect.origin.x = self.xScale * i - textRect.size.width / 2;
+        textRect.origin.x = self.xScale * ii - textRect.size.width / 2;
         textRect.origin.y = - 15 - textRect.size.height / 2;
         [tickValue drawInRect:textRect withFont:font];
         textRect = CGRectApplyAffineTransform(textRect, textTransform);
-        CGContextMoveToPoint(context, self.xScale * (i+xStep/2), -minorTickLength/2);
-        CGContextAddLineToPoint(context, self.xScale * (i+xStep/2), minorTickLength/2);
+        CGContextMoveToPoint(context, self.xScale * (ii+xStep/2), -minorTickLength/2);
+        CGContextAddLineToPoint(context, self.xScale * (ii+xStep/2), minorTickLength/2);
     }
 
 // y-axis ticks and labels
@@ -159,24 +154,19 @@
     CGContextMoveToPoint(context, -minorTickLength/2, self.yScale * (yTicksStart - yStep / 2));
     CGContextAddLineToPoint(context, minorTickLength/2, self.yScale * (yTicksStart - yStep / 2));
     for (float i = yTicksStart; i <= yTicksEnd; i += yStep) {
-        i = rintf(i / yStep) * yStep;
-        CGContextMoveToPoint(context, -majorTickLength/2, self.yScale * i);
-        CGContextAddLineToPoint(context, majorTickLength/2, self.yScale * i);
+        float ii = rintf(i / yStep) * yStep;
+        CGContextMoveToPoint(context, -majorTickLength/2, self.yScale * ii);
+        CGContextAddLineToPoint(context, majorTickLength/2, self.yScale * ii);
         CGRect textRect;
         textRect = CGRectApplyAffineTransform(textRect, textTransform);
-        NSString *tickValue;
-        if (fabs(i) < 10) {
-            tickValue = [NSString stringWithString:[[NSNumber numberWithFloat:i] stringValue]];
-        } else {
-            tickValue = [NSString stringWithString:[[NSNumber numberWithInt:rint(i)] stringValue]];
-        }
+        NSString *tickValue = [NSString stringWithString:[[NSNumber numberWithFloat:ii] stringValue]];
         if ([tickValue isEqualToString:@"0"])tickValue = @"";
         textRect.size = [tickValue sizeWithFont:font];
         textRect.origin.x = 20 - textRect.size.width / 2;
-        textRect.origin.y = self.yScale * i - 5 - textRect.size.height / 2;
+        textRect.origin.y = self.yScale * ii - 5 - textRect.size.height / 2;
         [tickValue drawInRect:textRect withFont:font];
-        CGContextMoveToPoint(context, -minorTickLength/2, self.yScale * (i + yStep / 2));
-        CGContextAddLineToPoint(context, minorTickLength/2, self.yScale * (i + yStep / 2));
+        CGContextMoveToPoint(context, -minorTickLength/2, self.yScale * (ii + yStep / 2));
+        CGContextAddLineToPoint(context, minorTickLength/2, self.yScale * (ii + yStep / 2));
     }
 
     CGContextStrokePath(context);

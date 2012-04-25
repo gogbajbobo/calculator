@@ -225,7 +225,6 @@
 
 - (void)viewDidLoad {
     [self initializeVariables];
-    NSLog(@"I'm here CVC");
 }
 
 @end
