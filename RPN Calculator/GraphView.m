@@ -47,10 +47,22 @@
     return _xScale;
 }
 
+- (void)setXScale:(CGFloat)xScale
+{
+    _xScale = xScale;
+    [self setNeedsDisplay];
+}
+
 - (CGFloat)yScale
 {
     if (!_yScale) _yScale = 1.0;
     return _yScale;
+}
+
+- (void)setYScale:(CGFloat)yScale
+{
+    _yScale = yScale;
+    [self setNeedsDisplay];
 }
 
 - (void)setVerticalShift:(CGFloat)verticalShift

@@ -10,6 +10,7 @@
 
 @interface GraphViewController () <GraphViewDataSource>
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
+@property (nonatomic) CGPoint touchPoint;
 
 @end
 
@@ -18,6 +19,7 @@
 @synthesize dataSourceForGraph = _dataSourceForGraph;
 @synthesize XYvalues = _XYvalues;
 @synthesize graphView = _graphView;
+@synthesize touchPoint = _touchPoint;
 
 
 - (void)setGraphView:(GraphView *)graphView
@@ -45,9 +47,20 @@
 {
     if ((gesture.state == UIGestureRecognizerStateChanged) || 
         (gesture.state == UIGestureRecognizerStateEnded)) {
-        self.graphView.scale *= gesture.scale;
-//        NSLog(@"gV.scale %f",self.graphView.scale);
+        CGPoint currentTouchPoint = [gesture locationOfTouch:1 inView:self.graphView];
+        CGFloat xDiff = fabs(currentTouchPoint.x - self.touchPoint.x);
+        CGFloat yDiff = fabs(currentTouchPoint.y - self.touchPoint.y);
+        if (xDiff == 0) {
+            self.graphView.yScale *= gesture.scale;
+        } else if (yDiff == 0) {
+            self.graphView.xScale *= gesture.scale;
+        } else {
+            self.graphView.scale *= gesture.scale;
+        }
         gesture.scale = 1;
+        NSLog(@"diff x%f y%f", xDiff, yDiff);
+        self.touchPoint = [gesture locationOfTouch:1 inView:self.graphView];
+        NSLog(@"Touches %f %f",self.touchPoint.x, self.touchPoint.y);
     }
 }
 
