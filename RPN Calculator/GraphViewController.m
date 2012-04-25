@@ -30,6 +30,9 @@
     self.description.backgroundColor = [UIColor whiteColor];
     [self.graphView addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)]];
     [self.graphView addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)]];
+    UITapGestureRecognizer *tripleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tripleTap:)];
+    tripleTap.numberOfTapsRequired = 3;
+    [self.graphView addGestureRecognizer:tripleTap];
 }
 
 - (NSArray *)yValuesForXFromZeroTo:(int)xMaxValue
@@ -41,6 +44,16 @@
         [yArray addObject:[NSNumber numberWithDouble:[self.dataSourceForGraph yValueFor:(i-xShift)/xScale]]];
     }
     return yArray;
+}
+
+- (void)tripleTap:(UITapGestureRecognizer *)gesture
+{
+    if ((gesture.state == UIGestureRecognizerStateChanged) || 
+        (gesture.state == UIGestureRecognizerStateEnded)) {
+        CGPoint location = [gesture locationInView:self.graphView];
+        self.graphView.verticalShift = location.y;
+        self.graphView.horizontalShift = location.x;
+    }
 }
 
 - (void)pan:(UIPanGestureRecognizer *)gesture
