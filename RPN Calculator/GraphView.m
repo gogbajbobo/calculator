@@ -23,6 +23,7 @@
 @synthesize scale = _scale;
 @synthesize scaleChanged = _scaleChanged;
 @synthesize shifted = _shifted;
+@synthesize xyScaleRelation = _xyScaleRelation;
 
 - (CGFloat)scale
 {
@@ -33,9 +34,9 @@
 - (void)setScale:(CGFloat)scale
 {
     _scale = scale;
-    self.xScale = -scale;
+    self.xScale = scale/self.xyScaleRelation;
     self.yScale = scale;
-    NSLog(@"scale %f",self.scale);
+    NSLog(@"scale %f xScale %f yScale %f xyScaleRelation %f",self.scale, self.xScale, self.yScale, self.xyScaleRelation);
     self.scaleChanged = YES;
     [self setNeedsDisplay];
 }
@@ -185,20 +186,24 @@
             }
         }
         NSLog(@"charAtIndex %C %d", charAtIndex, charPosition);
-        if (charAtIndex >= '1' && charAtIndex <= '4') {
+        if (charAtIndex >= '2' && charAtIndex <= '5') {
             tickStep = 0.5 * powf(10, -(charPosition-1));
-        } else if ((charAtIndex >= '5' && charAtIndex <= '9')) {
+        } else if (charAtIndex >= '6' && charAtIndex <= '9') {
             tickStep = powf(10, -(charPosition-1));
+        } else if (charAtIndex == '1') {
+            tickStep = powf(10, -(charPosition));
         }
     } else {
         CGFloat powOfTen = [[NSString stringWithFormat:@"%d",lrintf(abs(axisRange))] length];
         NSString *axisRangeString = [NSString stringWithFormat:@"%f",fabs(axisRange)];
         NSLog(@"pOT %f aR %f aRS %@",powOfTen,axisRange,axisRangeString);
         unichar firstChar = [axisRangeString characterAtIndex:0];
-        if (firstChar >= '1' && firstChar <= '4') {
+        if (firstChar >= '2' && firstChar <= '5') {
             tickStep = 0.5 * powf(10, powOfTen - 1);
-        } else if ((firstChar >= '5' && firstChar <= '9')) {
+        } else if (firstChar >= '6' && firstChar <= '9') {
             tickStep = powf(10, powOfTen - 1);
+        } else if (firstChar == '1') {
+            tickStep = powf(10, powOfTen - 2);            
         }
     }
     return tickStep;
@@ -230,6 +235,7 @@
         if (currPoint.y < minValue) minValue = currPoint.y;
     }
     if (!self.scaleChanged) {
+        self.xyScaleRelation = self.bounds.size.height/(minValue - maxValue);
         self.scale = self.bounds.size.height/(minValue - maxValue);
         NSLog(@"scale no changed");
     }
