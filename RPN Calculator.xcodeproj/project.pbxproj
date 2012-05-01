@@ -19,6 +19,7 @@
 		2C97B671153DB3F800C61941 /* GraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97B670153DB3F800C61941 /* GraphViewController.m */; };
 		2C97B675153ED0D500C61941 /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97B674153ED0D500C61941 /* GraphView.m */; };
 		2CF13D5E1550229000C3A85E /* ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CF13D5D1550228F00C3A85E /* ipad.storyboard */; };
+		2CF13D6115502BCF00C3A85E /* RotatableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF13D6015502BCF00C3A85E /* RotatableViewController.m */; };
 		2CF2CE9C1542E36400DAD663 /* DescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2CE9B1542E36400DAD663 /* DescriptionView.m */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,9 @@
 		2C97B673153ED0D500C61941 /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
 		2C97B674153ED0D500C61941 /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
 		2CF13D5D1550228F00C3A85E /* ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ipad.storyboard; sourceTree = "<group>"; };
+		2CF13D5F15502BCE00C3A85E /* RotatableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotatableViewController.h; sourceTree = "<group>"; };
+		2CF13D6015502BCF00C3A85E /* RotatableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RotatableViewController.m; sourceTree = "<group>"; };
+		2CF13D6215502BEE00C3A85E /* SplitViewBarButtonItemPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewBarButtonItemPresenter.h; sourceTree = "<group>"; };
 		2CF2CE9A1542E36400DAD663 /* DescriptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescriptionView.h; sourceTree = "<group>"; };
 		2CF2CE9B1542E36400DAD663 /* DescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DescriptionView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,6 +109,9 @@
 				2C05A4771517AFEE002E706C /* CalculatorBrain.m */,
 				2C05A46E15179BED002E706C /* CalculatorViewController.h */,
 				2C05A46F15179BED002E706C /* CalculatorViewController.m */,
+				2CF13D5F15502BCE00C3A85E /* RotatableViewController.h */,
+				2CF13D6015502BCF00C3A85E /* RotatableViewController.m */,
+				2CF13D6215502BEE00C3A85E /* SplitViewBarButtonItemPresenter.h */,
 				2C05A46015179BED002E706C /* Supporting Files */,
 			);
 			path = "RPN Calculator";
@@ -193,6 +200,7 @@
 				2C97B671153DB3F800C61941 /* GraphViewController.m in Sources */,
 				2C97B675153ED0D500C61941 /* GraphView.m in Sources */,
 				2CF2CE9C1542E36400DAD663 /* DescriptionView.m in Sources */,
+				2CF13D6115502BCF00C3A85E /* RotatableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
