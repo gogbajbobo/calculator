@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GraphView.h"
+#import "SplitViewBarButtonItemPresenter.h"
 
 @protocol DataTransmit <NSObject>
 
@@ -17,7 +18,7 @@
 @end
 
 
-@interface GraphViewController : UIViewController
+@interface GraphViewController : UIViewController <SplitViewBarButtonItemPresenter>
 
 @property (nonatomic,weak) IBOutlet NSDictionary *XYvalues;
 @property (weak, nonatomic) IBOutlet UILabel *description;

@@ -11,6 +11,8 @@
 @interface GraphViewController () <GraphViewDataSource>
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
 @property (nonatomic) CGPoint touchPoint;
+@property (nonatomic, weak) IBOutlet UIToolbar *toolbar;
+
 
 @end
 
@@ -20,6 +22,25 @@
 @synthesize XYvalues = _XYvalues;
 @synthesize graphView = _graphView;
 @synthesize touchPoint = _touchPoint;
+@synthesize splitViewBarButtonItem = _splitViewBarButtonItem;
+@synthesize toolbar = _toolbar;
+
+
+- (void)setSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
+{
+    if (splitViewBarButtonItem != _splitViewBarButtonItem) {
+        [self handleSplitViewBarButtonItem:splitViewBarButtonItem];
+    }
+}
+
+- (void)handleSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
+{
+    NSMutableArray *toolbarItems = [self.toolbar.items mutableCopy];
+    if (_splitViewBarButtonItem) [toolbarItems removeObject:_splitViewBarButtonItem];
+    if (splitViewBarButtonItem) [toolbarItems insertObject:splitViewBarButtonItem atIndex:0];
+    self.toolbar.items = toolbarItems;
+    _splitViewBarButtonItem = splitViewBarButtonItem;
+}
 
 
 - (void)setGraphView:(GraphView *)graphView
@@ -104,6 +125,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self handleSplitViewBarButtonItem:self.splitViewBarButtonItem];
 	// Do any additional setup after loading the view.
 }
 
