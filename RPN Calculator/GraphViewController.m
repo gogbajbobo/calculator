@@ -95,9 +95,9 @@
         CGPoint currentTouchPoint = [gesture locationOfTouch:0 inView:self.graphView];
         CGFloat xDiff = fabs(currentTouchPoint.x - self.touchPoint.x);
         CGFloat yDiff = fabs(currentTouchPoint.y - self.touchPoint.y);
-        if (fabs(xDiff) < 5) {
+        if (fabs(xDiff/yDiff) < 1) {
             self.graphView.yScale *= gesture.scale;
-        } else if (fabs(yDiff) < 5) {
+        } else if (fabs(yDiff/xDiff) < 1) {
             self.graphView.xScale *= gesture.scale;
         } else {
             [self.graphView changeScale:gesture.scale];
