@@ -193,6 +193,8 @@
 
 
 - (IBAction)graph:(UIButton *)sender {
+//    [self transferSplitViewBarButtonItemToViewController:self.graph];
+//    [self.graph setDataSourceForGraph:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -200,6 +202,7 @@
     if ([segue.identifier isEqualToString:@"showGraph"]) {
         [self transferSplitViewBarButtonItemToViewController:segue.destinationViewController];
         [segue.destinationViewController setDataSourceForGraph:self];
+        NSLog(@"HERE!");
     }
 }
 

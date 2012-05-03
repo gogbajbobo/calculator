@@ -47,6 +47,7 @@
 {
     _graphView = graphView;
     self.graphView.dataSource = self;
+//    NSLog(@"gV.dS %@", self.graphView.dataSource);
     self.description.text = [self.dataSourceForGraph descriptionText];
     self.description.backgroundColor = [UIColor whiteColor];
     [self.graphView addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinch:)]];
@@ -65,6 +66,7 @@
         [yArray addObject:[NSNumber numberWithDouble:[self.dataSourceForGraph yValueFor:(i-xShift)/xScale]]];
     }
     return yArray;
+//    NSLog(@"HERE!");
 }
 
 - (void)tripleTap:(UITapGestureRecognizer *)gesture

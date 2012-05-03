@@ -25,11 +25,21 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="aup-ec-zgN">
+                                <rect key="frame" x="0.0" y="44" width="768" height="21"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="39H-5H-kVu"/>
                     <connections>
+                        <outlet property="description" destination="aup-ec-zgN" id="9ge-2O-JUU"/>
+                        <outlet property="graphView" destination="1U1-ar-98g" id="t4K-4U-OQj"/>
                         <outlet property="toolbar" destination="uu7-t2-hbl" id="zcJ-uc-W0u"/>
                     </connections>
                 </viewController>
@@ -461,6 +471,7 @@
                                 </state>
                                 <connections>
                                     <action selector="graph:" destination="CCA-ma-cTg" eventType="touchUpInside" id="LZ1-Vp-hBf"/>
+                                    <segue destination="MT8-3v-fhi" kind="replace" identifier="showGraph" splitViewControllerTargetIndex="1" id="s1E-ll-VDA"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -477,9 +488,41 @@
             <point key="canvasLocation" x="-971" y="-795"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="CalculatorViewController" superclassName="RotatableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CalculatorViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="display" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="graph" candidateClass="GraphViewController"/>
+                <relationship kind="outlet" name="log" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="GraphView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="dataSource"/>
+            </relationships>
+        </class>
+        <class className="GraphViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="XYvalues" candidateClass="NSDictionary"/>
+                <relationship kind="outlet" name="dataSourceForGraph"/>
+                <relationship kind="outlet" name="description" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="graphView" candidateClass="GraphView"/>
+                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
+            </relationships>
+        </class>
+        <class className="RotatableViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/RotatableViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="s1E-ll-VDA"/>
+    </inferredMetricsTieBreakers>
 </document>

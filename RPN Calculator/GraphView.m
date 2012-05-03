@@ -226,6 +226,9 @@
     NSArray *yValues = [self.dataSource yValuesForXFromZeroTo:self.bounds.size.width
                                                    withXScale:self.xScale
                                                     andXShift:self.horizontalShift];
+//    NSLog(@"dataSource %@",self.dataSource);
+//    NSLog(@"yValues %@",yValues);
+    
     for (int i = 0; i < self.bounds.size.width; i++) {
         currPoint.y = [[yValues objectAtIndex:i] floatValue];
         if (currPoint.y > maxValue) maxValue = currPoint.y;
