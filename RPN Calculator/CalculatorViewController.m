@@ -202,7 +202,6 @@
     if ([segue.identifier isEqualToString:@"showGraph"]) {
         [self transferSplitViewBarButtonItemToViewController:segue.destinationViewController];
         [segue.destinationViewController setDataSourceForGraph:self];
-        NSLog(@"HERE!");
     }
 }
 
@@ -246,6 +245,77 @@
     }
 }
 
+- (void)setNewPositionForButton:(UIButton *)button
+                            AtX:(CGFloat)x
+                           andY:(CGFloat)y
+{
+    CGPoint newPosition;
+    newPosition.x = x;
+    newPosition.y = y;
+    button.center = newPosition;
+}
+
+- (void)changeButtonsPositionThenDeviceRotate
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        NSArray *subviews = [self.view subviews];
+        if (self.interfaceOrientation == UIDeviceOrientationPortraitUpsideDown || self.interfaceOrientation == UIDeviceOrientationPortrait) {
+            for (int i=0; i<subviews.count; i++) {
+                id subview = [subviews objectAtIndex:i];
+                if ([subview isKindOfClass:[UIButton class]]) {
+                    UIButton *temp = subview;
+                    if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"sin"]]) {
+                        [self setNewPositionForButton:temp AtX:196.0 andY:282.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"cos"]]) {
+                        [self setNewPositionForButton:temp AtX:268.0 andY:282.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"sqrt"]]) {
+                        [self setNewPositionForButton:temp AtX:196.0 andY:326.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"π"]]) {
+                        [self setNewPositionForButton:temp AtX:124.0 andY:327.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"C"]]) {
+                        [self setNewPositionForButton:temp AtX:52.0 andY:282.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"Undo"]]) {
+                        [self setNewPositionForButton:temp AtX:124.0 andY:282.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"x"]]) {
+                        [self setNewPositionForButton:temp AtX:52.0 andY:327.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"Graph"]]) {
+                        [self setNewPositionForButton:temp AtX:268.0 andY:327.5];
+                    }
+                }
+            }        
+        } else {
+            for (int i=0; i<subviews.count; i++) {
+                id subview = [subviews objectAtIndex:i];
+                if ([subview isKindOfClass:[UIButton class]]) {
+                    UIButton *temp = subview;
+                    if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"sin"]]) {
+                        [self setNewPositionForButton:temp AtX:340.0 andY:101.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"cos"]]) {
+                        [self setNewPositionForButton:temp AtX:340.0 andY:146.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"sqrt"]]) {
+                        [self setNewPositionForButton:temp AtX:340.0 andY:191.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"π"]]) {
+                        [self setNewPositionForButton:temp AtX:340.0 andY:236.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"C"]]) {
+                        [self setNewPositionForButton:temp AtX:412.0 andY:101.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"Undo"]]) {
+                        [self setNewPositionForButton:temp AtX:412.0 andY:146.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"x"]]) {
+                        [self setNewPositionForButton:temp AtX:412.0 andY:191.5];
+                    } else if ([temp.currentTitle isEqualToString:[NSString stringWithString:@"Graph"]]) {
+                        [self setNewPositionForButton:temp AtX:412.0 andY:236.5];
+                    }
+                }
+            }        
+        }
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self changeButtonsPositionThenDeviceRotate];
+}
+
 - (void)viewDidUnload {
     [self setLog:nil];
 //    [self setVarsDisplay:nil];
@@ -254,6 +324,21 @@
 
 - (void)viewDidLoad {
     [self initializeVariables];
+//    [self nsLogButtonsPosition];
+    [self changeButtonsPositionThenDeviceRotate];
+}
+
+- (void)nsLogButtonsPosition
+{
+    
+    NSArray *subviews = [self.view subviews];
+    for (int i=0; i<subviews.count; i++) {
+        id subview = [subviews objectAtIndex:i];
+        if ([subview isKindOfClass:[UIButton class]]) {
+            UIButton *temp = subview;
+            NSLog(@"title %@ x %f y %f",temp.currentTitle, temp.center.x, temp.center.y);
+        }
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
