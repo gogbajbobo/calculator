@@ -325,6 +325,10 @@
 - (void)viewDidLoad {
     [self initializeVariables];
 //    [self nsLogButtonsPosition];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
     [self changeButtonsPositionThenDeviceRotate];
 }
 
