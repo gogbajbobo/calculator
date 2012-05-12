@@ -255,7 +255,7 @@
     button.center = newPosition;
 }
 
-- (void)changeButtonsPositionThenDeviceRotate
+- (void)changeButtonsPositionTheniPhoneRotate
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         NSArray *subviews = [self.view subviews];
@@ -313,7 +313,7 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self changeButtonsPositionThenDeviceRotate];
+    [self changeButtonsPositionTheniPhoneRotate];
 }
 
 - (void)viewDidUnload {
@@ -329,7 +329,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self changeButtonsPositionThenDeviceRotate];
+    [self changeButtonsPositionTheniPhoneRotate];
 }
 
 - (void)nsLogButtonsPosition
