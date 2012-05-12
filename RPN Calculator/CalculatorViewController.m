@@ -27,6 +27,7 @@
 //@synthesize varsDisplay = _varsDisplay;
 @synthesize variableValues = _variableValues;
 
+
 - (CalculatorBrain *)brain
 {
     if(!_brain) _brain = [[CalculatorBrain alloc] init];
@@ -215,6 +216,11 @@
 {
     [self setVariableValues:[self createVariableDictionary:[NSArray arrayWithObjects:[NSNumber numberWithFloat:(xValue)], nil]]];
     return [[NSNumber numberWithDouble:[self.brain performOperation:@"Result"]] floatValue];
+}
+
+- (id)calculatorProgram
+{
+    return [[self.brain program] copy];
 }
 
 

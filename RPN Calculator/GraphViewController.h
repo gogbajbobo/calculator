@@ -14,6 +14,7 @@
 
 - (float)yValueFor:(float)xValue;
 - (NSString *)descriptionText;
+- (id)calculatorProgram;
 
 @end
 

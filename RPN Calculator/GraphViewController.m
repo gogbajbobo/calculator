@@ -25,6 +25,18 @@
 @synthesize splitViewBarButtonItem = _splitViewBarButtonItem;
 @synthesize toolbar = _toolbar;
 
+#define FAVORITES_KEY @"GraphViewController.favorites"
+
+- (IBAction)addToFavorites:(id)sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *favorites = [[defaults objectForKey:FAVORITES_KEY] mutableCopy];
+    if (!favorites) favorites = [NSMutableArray array];
+    [favorites addObject:[self.dataSourceForGraph calculatorProgram]];
+    [defaults setObject:favorites forKey:FAVORITES_KEY];
+    [defaults synchronize];
+    
+}
+
 
 - (void)setSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
 {
