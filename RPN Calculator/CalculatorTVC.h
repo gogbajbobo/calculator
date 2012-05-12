@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CalculatorTVC : UITableViewController
+@property (nonatomic, strong) NSArray *programs;
 
 @end

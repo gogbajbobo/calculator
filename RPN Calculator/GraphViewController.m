@@ -7,6 +7,7 @@
 //
 
 #import "GraphViewController.h"
+#import "CalculatorTVC.h"
 
 @interface GraphViewController () <GraphViewDataSource>
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
@@ -121,6 +122,14 @@
     }
 }
 
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showFavoritesGraphs"]) {
+        NSArray *programs = [[NSUserDefaults standardUserDefaults] objectForKey:FAVORITES_KEY];
+        [segue.destinationViewController setPrograms:programs];
+    }
+}
 
 
 // ________________________________________________________________________
