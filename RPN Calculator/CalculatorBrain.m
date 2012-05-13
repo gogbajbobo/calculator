@@ -19,7 +19,7 @@
 @synthesize programStack = _programStack;
 @synthesize variableValues = _variableValues;
 @synthesize constantValues = _constantValues;
-
+@synthesize program = _program;
 
 - (void)setVariableValuesWith:(NSDictionary *)variableDictionary {
     if ([variableDictionary isKindOfClass:NSDictionary.class]) {
@@ -78,6 +78,13 @@
 - (id)program
 {
     return [self.programStack copy];
+}
+
+- (void)setProgram:(id)program
+{
+    if ([program isKindOfClass:[NSArray class]]) {
+        self.programStack = program;
+    }
 }
 
 + (NSString *)descriptionOfProgram:(id)program

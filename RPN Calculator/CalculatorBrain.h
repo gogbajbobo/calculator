@@ -16,7 +16,8 @@
 - (NSString *)showDescription;
 - (void)setVariableValuesWith:(NSDictionary *)variableDictionary;
 
-@property (readonly) id program;
+//@property (readonly) id program;
+@property (nonatomic, strong) id program;
 
 @property (nonatomic, strong) NSDictionary *variableValues;
 

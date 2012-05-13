@@ -8,7 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class CalculatorTVC;
+
+@protocol CalculatorTVCDelegate <NSObject>
+
+@optional
+- (void)calculatorTVC:(CalculatorTVC *)sender
+         choseProgram:(id)program;
+
+@end
+
 @interface CalculatorTVC : UITableViewController
 @property (nonatomic, strong) NSArray *programs;
+@property (nonatomic, weak) id <CalculatorTVCDelegate> delegate;
 
 @end

@@ -26,6 +26,7 @@
 @synthesize graph = _graph;
 //@synthesize varsDisplay = _varsDisplay;
 @synthesize variableValues = _variableValues;
+@synthesize program = _program;
 
 
 - (CalculatorBrain *)brain
@@ -221,6 +222,12 @@
 - (id)calculatorProgram
 {
     return [[self.brain program] copy];
+}
+
+- (void)setProgram:(id)program
+{
+    NSLog(@"chosen program %@", program);
+    self.brain.program = program;
 }
 
 

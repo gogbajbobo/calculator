@@ -16,6 +16,8 @@
 - (NSString *)descriptionText;
 - (id)calculatorProgram;
 
+@property (nonatomic, weak) id program;
+
 @end
 
 

@@ -9,7 +9,7 @@
 #import "GraphViewController.h"
 #import "CalculatorTVC.h"
 
-@interface GraphViewController () <GraphViewDataSource>
+@interface GraphViewController () <GraphViewDataSource, CalculatorTVCDelegate>
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
 @property (nonatomic) CGPoint touchPoint;
 @property (nonatomic, weak) IBOutlet UIToolbar *toolbar;
@@ -128,9 +128,15 @@
     if ([segue.identifier isEqualToString:@"showFavoritesGraphs"]) {
         NSArray *programs = [[NSUserDefaults standardUserDefaults] objectForKey:FAVORITES_KEY];
         [segue.destinationViewController setPrograms:programs];
+        [segue.destinationViewController setDelegate:self];
     }
 }
 
+- (void)calculatorTVC:(CalculatorTVC *)sender choseProgram:(id)program
+{
+    [self.dataSourceForGraph setProgram:program];
+    [self.graphView setNeedsDisplay];
+}
 
 // ________________________________________________________________________
 
