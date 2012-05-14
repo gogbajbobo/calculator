@@ -226,7 +226,6 @@
 
 - (void)setProgram:(id)program
 {
-    NSLog(@"chosen program %@", program);
     self.brain.program = program;
 }
 
@@ -237,6 +236,7 @@
     if (![gvc isKindOfClass:[GraphViewController class]]) {
         gvc = nil;
     }
+//    [gvc setDataSourceForGraph:self];
     return gvc;
 }
 

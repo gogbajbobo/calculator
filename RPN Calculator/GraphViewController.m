@@ -35,7 +35,6 @@
     [favorites addObject:[self.dataSourceForGraph calculatorProgram]];
     [defaults setObject:favorites forKey:FAVORITES_KEY];
     [defaults synchronize];
-    
 }
 
 

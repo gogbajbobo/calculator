@@ -9,8 +9,6 @@
 #import "GraphView.h"
 
 @interface GraphView()
-@property (nonatomic) BOOL scaleChanged;
-@property (nonatomic) BOOL shifted;
 
 @end
 
@@ -21,11 +19,31 @@
 @synthesize verticalShift = _verticalShift;
 @synthesize horizontalShift = _horizontalShift;
 
-@synthesize scaleChanged = _scaleChanged;
-@synthesize shifted = _shifted;
 @synthesize xyScaleRelation = _xyScaleRelation;
 
 #define HOR_SHIFT_INIT 20.0;
+#define VER_SHIFT_INIT self.bounds.size.height - 20.0;
+
+#define CURRENT_H_SHIFT @"GraphView.hs"
+#define CURRENT_V_SHIFT @"GraphView.vs"
+#define CURRENT_X_SCALE @"GraphView.xs"
+#define CURRENT_Y_SCALE @"GraphView.ys"
+
+
+//#define FAVORITES_KEY @"GraphViewController.favorites"
+//
+//- (IBAction)addToFavorites:(id)sender {
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    NSMutableArray *favorites = [[defaults objectForKey:FAVORITES_KEY] mutableCopy];
+//    if (!favorites) favorites = [NSMutableArray array];
+//    [favorites addObject:[self.dataSourceForGraph calculatorProgram]];
+//    [defaults setObject:favorites forKey:FAVORITES_KEY];
+//    [defaults synchronize];
+//}
+//NSArray *programs = [[NSUserDefaults standardUserDefaults] objectForKey:FAVORITES_KEY];
+//[segue.destinationViewController setPrograms:programs];
+//[segue.destinationViewController setDelegate:self];
+
 
 - (void)changeScale:(CGFloat)scale
 {
@@ -36,47 +54,71 @@
 - (CGFloat)xScale
 {
     if (!_xScale) _xScale = 1.0;
+    CGFloat graphViewXS = [[[NSUserDefaults standardUserDefaults] objectForKey:CURRENT_X_SCALE] floatValue];
+    if (graphViewXS) _xScale = graphViewXS;
     return _xScale;
 }
 
 - (void)setXScale:(CGFloat)xScale
 {
-    self.horizontalShift = self.horizontalShift - (self.bounds.size.width/2 - self.horizontalShift) * ((xScale/_xScale) - 1);
+    self.horizontalShift = self.horizontalShift - (self.bounds.size.width/2 - self.horizontalShift) * ((xScale/self.xScale) - 1);
     _xScale = xScale;
+    NSUserDefaults *graphViewXS = [NSUserDefaults standardUserDefaults];
+    [graphViewXS setFloat:xScale forKey:CURRENT_X_SCALE];
+    [graphViewXS synchronize];
 }
 
 - (CGFloat)yScale
 {
     if (!_yScale) _yScale = 1.0;
+    CGFloat graphViewYS = [[[NSUserDefaults standardUserDefaults] objectForKey:CURRENT_Y_SCALE] floatValue];
+    if (graphViewYS) _yScale = graphViewYS;
     return _yScale;
 }
 
 - (void)setYScale:(CGFloat)yScale
 {
-    if (self.scaleChanged) {
-        self.verticalShift = self.verticalShift - (self.bounds.size.height/2 - self.verticalShift) * ((yScale/_yScale) - 1);
-    }
+    self.verticalShift = self.verticalShift - (self.bounds.size.height/2 - self.verticalShift) * ((yScale/self.yScale) - 1);
     _yScale = yScale;
-    self.scaleChanged = YES;
+    NSUserDefaults *graphViewYS = [NSUserDefaults standardUserDefaults];
+    [graphViewYS setFloat:yScale forKey:CURRENT_Y_SCALE];
+    [graphViewYS synchronize];
+}
+
+- (CGFloat)verticalShift
+{
+    if (!_verticalShift) _verticalShift = VER_SHIFT_INIT;
+    CGFloat graphViewVS = [[[NSUserDefaults standardUserDefaults] objectForKey:CURRENT_V_SHIFT] floatValue];
+    if (graphViewVS) _verticalShift = graphViewVS;
+    NSLog(@"vs %f", _verticalShift);
+    return _verticalShift;
 }
 
 - (void)setVerticalShift:(CGFloat)verticalShift
 {
     _verticalShift = verticalShift;
-    self.shifted = YES;
+    NSUserDefaults *graphViewVS = [NSUserDefaults standardUserDefaults];
+    [graphViewVS setFloat:verticalShift forKey:CURRENT_V_SHIFT];
+    [graphViewVS synchronize];
+
     [self setNeedsDisplay];
 }
 
 - (CGFloat)horizontalShift
 {
     if (!_horizontalShift) _horizontalShift = HOR_SHIFT_INIT;
+    CGFloat graphViewHS = [[[NSUserDefaults standardUserDefaults] objectForKey:CURRENT_H_SHIFT] floatValue];
+    if (graphViewHS) _horizontalShift = graphViewHS;
     return _horizontalShift;
 }
 
 - (void)setHorizontalShift:(CGFloat)horizontalShift
 {
     _horizontalShift = horizontalShift;
-    self.shifted = YES;
+    NSUserDefaults *graphViewHS = [NSUserDefaults standardUserDefaults];
+    [graphViewHS setFloat:horizontalShift forKey:CURRENT_H_SHIFT];
+    [graphViewHS synchronize];
+    
     [self setNeedsDisplay];
 }
 
@@ -226,18 +268,33 @@
     NSArray *yValues = [self.dataSource yValuesForXFromZeroTo:self.bounds.size.width
                                                    withXScale:self.xScale
                                                     andXShift:self.horizontalShift];
-//    NSLog(@"dataSource %@",self.dataSource);
-//    NSLog(@"yValues %@",yValues);
     
     for (int i = 0; i < self.bounds.size.width; i++) {
         currPoint.y = [[yValues objectAtIndex:i] floatValue];
         if (currPoint.y > maxValue) maxValue = currPoint.y;
         if (currPoint.y < minValue) minValue = currPoint.y;
     }
-    if (!self.scaleChanged) self.yScale = self.bounds.size.height/(minValue - maxValue);
 
-    if (!self.shifted) {
-        self.verticalShift = self.bounds.size.height-(minValue * self.yScale);        
+    CGFloat graphViewYS = [[[NSUserDefaults standardUserDefaults] objectForKey:CURRENT_Y_SCALE] floatValue];
+    NSLog(@"d %@", [[NSUserDefaults standardUserDefaults] objectForKey:CURRENT_Y_SCALE]);
+    NSLog(@"YS %f", graphViewYS);
+    if (!graphViewYS) {
+        self.yScale = self.bounds.size.height/(minValue - maxValue);
+        NSLog(@"!graphViewYS %f",self.yScale);
+    } else {
+        self.yScale = graphViewYS;
+        NSLog(@"graphViewYS");
+    }
+
+    CGFloat graphViewVS = [[[NSUserDefaults standardUserDefaults] objectForKey:CURRENT_V_SHIFT] floatValue];
+    NSLog(@"d %@", [[NSUserDefaults standardUserDefaults] objectForKey:CURRENT_V_SHIFT]);
+    NSLog(@"VS %f", graphViewVS);
+    if (!graphViewVS) {
+        self.verticalShift = self.bounds.size.height-(minValue * self.yScale);
+        NSLog(@"!graphViewVS %f", self.verticalShift);
+    } else {
+        self.verticalShift = graphViewVS;
+        NSLog(@"graphViewVS %f", self.verticalShift);
     }
 
     CGContextSetLineWidth(context, 1.0);
